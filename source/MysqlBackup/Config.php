@@ -36,7 +36,8 @@ class Config
 
     private function __construct()
     {
-        
+        $this->targetBackupDir = "~";
+        $this->workDir = '.';
     }
 
     /**
@@ -52,6 +53,9 @@ class Config
 
     public function read($config)
     {
+        $output = ConsoleOutput::getInstance();
+        $output->printMessage("Read config parameters...");
+        
         if (!is_array($config)) {
             throw new BackupException("The configuration must be an array.");
         }
