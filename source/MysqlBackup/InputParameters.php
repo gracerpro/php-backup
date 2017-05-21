@@ -8,5 +8,14 @@ namespace MysqlBackup;
 
 class InputParameters
 {
-    
+
+    /** @var bool */
+    public $help;
+
+    /** @var string */
+    public $configFileName;
+
+    /** @var string */
+    public $mysqlDumpOptions;
+
 }
