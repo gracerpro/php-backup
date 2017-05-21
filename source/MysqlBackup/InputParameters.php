@@ -18,4 +18,7 @@ class InputParameters
     /** @var string */
     public $mysqlDumpOptions;
 
+    /** @var string */
+    public $sendBackupFileTo;
+
 }

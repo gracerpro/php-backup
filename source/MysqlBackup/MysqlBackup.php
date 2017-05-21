@@ -74,9 +74,10 @@ class MysqlBackup
             $help->printHelp();
             exit;
         }
-        
+
         $this->createBackupFile();
 
+        // TODO: if nothing in command line and config then print it
         echo "Use --help for additional inforation.\n";
     }
 

@@ -4,6 +4,7 @@ namespace MysqlBackup;
 class ConsoleOutput
 {
 
+    /** @var ConsoleOutput */
     private static $instance;
 
     /**

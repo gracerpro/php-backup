@@ -7,4 +7,5 @@ return [
     'dbPassword' => '',
     'dbName' => '',
     'dbCharset' => 'utf8',
+    'placementDiskDir' => '',
 ];
