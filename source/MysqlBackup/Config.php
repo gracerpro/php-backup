@@ -31,6 +31,15 @@ class Config
     /** @var string */
     private $targetBackupDir;
 
+    /** @var bool */
+    private $moveArchiveToStorage;
+
+    /** @var string */
+    private $storageDiskDir;
+
+    /** @var string */
+    private $storageType;
+
     /** @var Config */
     private static $instance;
 
@@ -55,7 +64,7 @@ class Config
     {
         $output = ConsoleOutput::getInstance();
         $output->printMessage("Read config parameters...");
-        
+
         if (!is_array($config)) {
             throw new BackupException("The configuration must be an array.");
         }
@@ -105,5 +114,38 @@ class Config
     function getDbCharset()
     {
         return $this->dbCharset;
+    }
+
+    public function getStorageDiskDir()
+    {
+        return $this->storageDiskDir;
+    }
+
+    public function setStorageDiskDir($dir)
+    {
+        $this->storageDiskDir = $dir;
+        return $this;
+    }
+
+    public function getStorageType()
+    {
+        return $this->storageType;
+    }
+
+    public function setStorageType($storageType)
+    {
+        $this->storageType = $storageType;
+        return $this;
+    }
+
+    public function getMoveArchiveToStorage()
+    {
+        return $this->moveArchiveToStorage;
+    }
+
+    public function setMoveArchiveToStorage($moveArchiveToStorage)
+    {
+        $this->moveArchiveToStorage = $moveArchiveToStorage;
+        return $this;
     }
 }

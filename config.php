@@ -7,5 +7,10 @@ return [
     'dbPassword' => '',
     'dbName' => '',
     'dbCharset' => 'utf8',
-    'placementDiskDir' => '',
+    'moveArchiveToStorage' => false,
+    'storageType' => 'disk',
+    // disk
+    'storageDiskDir' => '',
+    // yandex disk
+    //...
 ];

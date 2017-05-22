@@ -1,7 +1,7 @@
 <?php
 namespace MysqlBackup;
 
-//use MysqlBackup\Config;
+use MysqlBackup\BackupStorageFactory;
 
 class MysqlBackup
 {
@@ -22,6 +22,8 @@ class MysqlBackup
 
         try {
             $this->readInputParameters();
+            $this->readConfig();
+            $this->writeInputParametersToConfig();
             $this->init();
             $this->runActions();
             echo "Bay\n";
@@ -30,26 +32,49 @@ class MysqlBackup
         }
     }
 
-    private function init()
+    private function readConfig()
     {
         $configFileName = 'config-local.php';
         if ($this->inputParameters->configFileName) {
             $configFileName = $this->inputParameters->configFileName;
         }
+
         $configMain = require 'config.php';
         $configLocal = require $configFileName;
         $configCommon = array_merge($configMain, $configLocal);
+
         $config = Config::getInstance();
         $config->read($configCommon);
     }
 
+    private function init()
+    {
+        
+    }
+
+    private function writeInputParametersToConfig()
+    {
+        $config = Config::getInstance();
+        $inputParams = $this->inputParameters;
+        if ($inputParams->storageType) {
+            $config->setStorageType($inputParams->storageType);
+        }
+        if ($inputParams->storageDiskDir) {
+            $config->setStorageDiskDir($inputParams->storageDiskDir);
+        }
+        if ($inputParams->moveArchiveToStorage) {
+            $config->setMoveArchiveToStorage($inputParams->moveArchiveToStorage);
+        }
+    }
+
     private function readInputParameters()
     {
-        $shortOptions = 'f:';
+        $shortOptions = 'f:h::';
         $longOptions = [
             'configFile:',
             'help::',
-            'mysqlDumpOptions::'
+            'mysqlDumpOptions::',
+            'moveArchiveToStorage::'
         ];
         $options = getopt($shortOptions, $longOptions);
 
@@ -59,11 +84,21 @@ class MysqlBackup
         if (isset($options['configFile'])) {
             $this->inputParameters->configFileName = $options['configFile'];
         }
-        if (isset($options['help'])) {
+        if (isset($options['help']) || isset($options['h'])) {
             $this->inputParameters->help = true;
         }
         if (isset($options['mysqlDumpOptions'])) {
             $this->inputParameters->mysqlDumpOptions = $options['mysqlDumpOptions'];
+        }
+
+        if (isset($options['storageType'])) {
+            $this->inputParameters->storageType = $options['storageType'];
+        }
+        if (isset($options['storageDiskDir'])) {
+            $this->inputParameters->storageDiskDir = $options['storageDiskDir'];
+        }
+        if (isset($options['moveArchiveToStorage'])) {
+            $this->inputParameters->moveArchiveToStorage = true;
         }
     }
 
@@ -75,7 +110,16 @@ class MysqlBackup
             exit;
         }
 
-        $this->createBackupFile();
+        $consoleOut = ConsoleOutput::getInstance();
+
+        try {
+            $creator = $this->createBackupFile();
+            $this->sendBackupToStorage($creator);
+        } catch (\MysqlBackup\BackupException $ex) {
+            $consoleOut->printMessage("Global error: " . $ex->getMessage());
+        } catch (\Exception $ex) {
+            $consoleOut->printMessage("Exception: " . $ex->getMessage());
+        }
 
         // TODO: if nothing in command line and config then print it
         echo "Use --help for additional inforation.\n";
@@ -85,5 +129,18 @@ class MysqlBackup
     {
         $creator = new BackupCreator();
         $creator->create();
+
+        return $creator;
+    }
+
+    private function sendBackupToStorage(BackupCreator $creator)
+    {
+        $config = Config::getInstance();
+        $storageFactory = new BackupStorageFactory();
+        $storageType = $config->getStorageType();
+        $storage = $storageFactory->create($storageType);
+        if (!$storage->save($creator)) {
+            throw new \MysqlBackup\BackupException("Could not save to storage");
+        }
     }
 }

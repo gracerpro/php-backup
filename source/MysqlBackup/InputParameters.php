@@ -19,6 +19,12 @@ class InputParameters
     public $mysqlDumpOptions;
 
     /** @var string */
-    public $sendBackupFileTo;
+    public $storageType;
+
+    /** @var string */
+    public $storageDiskDir;
+
+    /** @var bool */
+    public $moveArchiveToStorage;
 
 }

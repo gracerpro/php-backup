@@ -27,6 +27,14 @@ class BackupCreator
     }
 
     /**
+     * @return string
+     */
+    public function getBackupZippedFilePath()
+    {
+        return $this->getBackupFilePath() . '.gz';
+    }
+
+    /**
      * Take the database settings and create dump
      */
     public function create()
@@ -51,10 +59,9 @@ class BackupCreator
             $command = "gzip -f -S \".gz\" {$targetFilePath}";
             exec($command, $output, $returnCode);
             $consoleOut->printMessage("exec() return code: {$returnCode}");
-            
         } catch (\Exception $ex) {
             $consoleOut->printMessage("Error: " . $ex->getMessage);
+            throw $ex;
         }
-
     }
 }

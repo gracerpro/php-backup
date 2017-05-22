@@ -1,6 +1,8 @@
 <?php
 namespace MysqlBackup;
 
+use MysqlBackup\BackupStorageFactory;
+
 class Help
 {
 
@@ -9,16 +11,16 @@ class Help
         $console = ConsoleOutput::getInstance();
         
         $console->printMessage("Parameters:");
-        $console->printMessage("--help               Show help.");
+        $console->printMessage("-h, --help           Show help.");
         $console->printMessage("-f, --configFile     Configuration file.");
         $console->printMessage("--mysqlDumpOptions   Options for mysqldump.");
-        $console->printMessage("--sendBackupFileTo   type, default '" . BackupPlacement::PLACEMENT_DEFAULT . "'.");
-        $console->printMessage("  type '" . BackupPlacement::PLACEMENT_DISK . "'");
-        $console->printMessage("    placementDiskDir   Directory, string.");
-        $console->printMessage("  type '" . BackupPlacement::PLACEMENT_YANDEX_DISK . "'");
+        $console->printMessage("--moveArchiveToStorage Move (delete source) file to storage.");
+        $console->printMessage("--storageType        Storage type, default '" . BackupStorageFactory::STORAGE_DEFAULT . "'.");
+        $console->printMessage("  type '" . BackupStorageFactory::STORAGE_DISK . "'");
+        $console->printMessage("    --storageDiskDir   Directory for archives, string.");
+        $console->printMessage("  type '" . BackupStorageFactory::STORAGE_YANDEX_DISK . "'");
         $console->printMessage("    null");
-        $console->printMessage("  type '" . BackupPlacement::PLACEMENT_MAIL_CLOUD . "'");
+        $console->printMessage("  type '" . BackupStorageFactory::STORAGE_MAIL_CLOUD . "'");
         $console->printMessage("    null");
-        $console->printMessage("--deleteAfterSendToPlacement  Delete backup file after sending to placement.");
     }
 }
