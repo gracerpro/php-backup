@@ -35,8 +35,8 @@ class MysqlBackup
     private function readConfig()
     {
         $configFileName = 'config-local.php';
-        if ($this->inputParameters->configFileName) {
-            $configFileName = $this->inputParameters->configFileName;
+        if ($this->inputParameters->getConfigFileName()) {
+            $configFileName = $this->inputParameters->getConfigFileName();
         }
 
         $configMain = require 'config.php';
@@ -56,14 +56,15 @@ class MysqlBackup
     {
         $config = Config::getInstance();
         $inputParams = $this->inputParameters;
-        if ($inputParams->storageType) {
-            $config->setStorageType($inputParams->storageType);
+        //var_dump($inputParams); die;
+        if ($inputParams->getStorageType()) {
+            $config->setStorageType($inputParams->getStorageType());
         }
-        if ($inputParams->storageDiskDir) {
-            $config->setStorageDiskDir($inputParams->storageDiskDir);
+        if ($inputParams->getStorageDiskDir()) {
+            $config->setStorageDiskDir($inputParams->getStorageDiskDir());
         }
-        if ($inputParams->moveArchiveToStorage) {
-            $config->setMoveArchiveToStorage($inputParams->moveArchiveToStorage);
+        if ($inputParams->getRemoveArchiveAfterSync()) {
+            $config->setMoveArchiveToStorage($inputParams->getRemoveArchiveAfterSync());
         }
     }
 
@@ -74,37 +75,37 @@ class MysqlBackup
             'configFile:',
             'help::',
             'mysqlDumpOptions::',
-            'moveArchiveToStorage::'
+            'removeArchiveAfterSync::'
         ];
         $options = getopt($shortOptions, $longOptions);
 
         if (isset($options['f'])) {
-            $this->inputParameters->configFileName = $options['f'];
+            $this->inputParameters->setConfigFileName($options['f']);
         }
         if (isset($options['configFile'])) {
-            $this->inputParameters->configFileName = $options['configFile'];
+            $this->inputParameters->setConfigFileName($options['configFile']);
         }
         if (isset($options['help']) || isset($options['h'])) {
-            $this->inputParameters->help = true;
+            $this->inputParameters->setHelp(true);
         }
         if (isset($options['mysqlDumpOptions'])) {
-            $this->inputParameters->mysqlDumpOptions = $options['mysqlDumpOptions'];
+            $this->inputParameters->setMysqlDumpOptions($options['mysqlDumpOptions']);
         }
 
         if (isset($options['storageType'])) {
-            $this->inputParameters->storageType = $options['storageType'];
+            $this->inputParameters->setStorageType($options['storageType']);
         }
         if (isset($options['storageDiskDir'])) {
-            $this->inputParameters->storageDiskDir = $options['storageDiskDir'];
+            $this->inputParameters->setStorageDiskDir($options['storageDiskDir']);
         }
-        if (isset($options['moveArchiveToStorage'])) {
-            $this->inputParameters->moveArchiveToStorage = true;
+        if (isset($options['removeArchiveAfterSync'])) {
+            $this->inputParameters->setRemoveArchiveAfterSync(true);
         }
     }
 
     private function runActions()
     {
-        if ($this->inputParameters->help) {
+        if ($this->inputParameters->getHelp()) {
             $help = new Help();
             $help->printHelp();
             exit;

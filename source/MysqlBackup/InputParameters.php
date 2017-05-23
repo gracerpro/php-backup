@@ -1,30 +1,37 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 namespace MysqlBackup;
 
 class InputParameters
 {
 
-    /** @var bool */
-    public $help;
-
-    /** @var string */
-    public $configFileName;
-
-    /** @var string */
-    public $mysqlDumpOptions;
-
-    /** @var string */
-    public $storageType;
-
-    /** @var string */
-    public $storageDiskDir;
+    use ConfigTrait;
 
     /** @var bool */
-    public $moveArchiveToStorage;
+    private $help;
 
+    /** @var string */
+    private $configFileName;
+
+    public function getHelp()
+    {
+        return $this->help;
+    }
+
+    public function getConfigFileName()
+    {
+        return $this->configFileName;
+    }
+
+    public function setHelp($help)
+    {
+        $this->help = $help;
+        return $this;
+    }
+
+    public function setConfigFileName($configFileName)
+    {
+        $this->configFileName = $configFileName;
+        return $this;
+    }
 }

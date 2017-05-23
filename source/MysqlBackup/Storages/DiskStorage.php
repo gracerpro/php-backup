@@ -25,9 +25,13 @@ class DiskStorage implements StorageInterface
         //var_dump($config->getMoveArchiveToStorage()); die;
         if ($config->getMoveArchiveToStorage()) {
             $consoleOut->printMessage("Rename file");
+            $consoleOut->printMessage("from: {$sourceFilePath}");
+            $consoleOut->printMessage("to: {$destFilePath}");
             $result = rename($sourceFilePath, $destFilePath);
         } else {
             $consoleOut->printMessage("Copy file");
+            $consoleOut->printMessage("from: {$sourceFilePath}");
+            $consoleOut->printMessage("to: {$destFilePath}");
             $result = copy($sourceFilePath, $destFilePath);
         }
         

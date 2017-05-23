@@ -3,9 +3,10 @@ namespace MysqlBackup;
 
 class BackupCreator
 {
-
+    // TODO: move to config
     const FRECUENCY_DAY = 'day';
 
+    /** @var string */
     private $frequencyCreation;
 
     public function __construct()
@@ -23,7 +24,7 @@ class BackupCreator
         if ($this->frequencyCreation === self::FRECUENCY_DAY) {
             return $config->getTargetBackupDir() . '/' . date('Y-m-d') . '_' . $config->getDbName() . '.sql';
         }
-        throw new BackupException("Unknown frequency creation.");
+        throw new BackupException("Unknown frequency of a creation.");
     }
 
     /**
@@ -56,11 +57,11 @@ class BackupCreator
             $consoleOut->printMessage("exec() return code: {$returnCode}");
 
             $consoleOut->printMessage("Gzip...");
-            $command = "gzip -f -S \".gz\" {$targetFilePath}";
+            $command = "gzip -f -S \".gz\" \"{$targetFilePath}\"";
             exec($command, $output, $returnCode);
             $consoleOut->printMessage("exec() return code: {$returnCode}");
         } catch (\Exception $ex) {
-            $consoleOut->printMessage("Error: " . $ex->getMessage);
+            $consoleOut->printMessage("Error: {$ex->getMessage}");
             throw $ex;
         }
     }

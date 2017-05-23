@@ -8,7 +8,7 @@ class BackupStorageFactory
 {
 
     const STORAGE_DISK = 'disk';
-    const STORAGE_REMOTE_DISK = 'remote_disk';
+    const STORAGE_FTP = 'ftp';
     const STORAGE_YANDEX_DISK = 'yandex_disk';
     const STORAGE_MAIL_CLOUD = 'mail_cloud';
     const STORAGE_DEFAULT = self::STORAGE_DISK;

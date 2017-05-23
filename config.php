@@ -7,7 +7,7 @@ return [
     'dbPassword' => '',
     'dbName' => '',
     'dbCharset' => 'utf8',
-    'moveArchiveToStorage' => false,
+    'removeArchiveAfterSync' => false,
     'storageType' => 'disk',
     // disk
     'storageDiskDir' => '',

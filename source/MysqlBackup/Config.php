@@ -4,41 +4,7 @@ namespace MysqlBackup;
 class Config
 {
 
-    /** @var string */
-    private $dbHost;
-
-    /** @var string */
-    private $dbPort;
-
-    /** @var string */
-    private $dbCharset;
-
-    /** @var string */
-    private $dbUser;
-
-    /** @var string */
-    private $dbPassword;
-
-    /** @var string */
-    private $dbName;
-
-    /**
-     * Directory with configuration file
-     * @var string
-     */
-    private $workDir;
-
-    /** @var string */
-    private $targetBackupDir;
-
-    /** @var bool */
-    private $moveArchiveToStorage;
-
-    /** @var string */
-    private $storageDiskDir;
-
-    /** @var string */
-    private $storageType;
+    use ConfigTrait;
 
     /** @var Config */
     private static $instance;
@@ -76,76 +42,4 @@ class Config
         }
     }
 
-    function getDbHost()
-    {
-        return $this->dbHost;
-    }
-
-    function getDbPort()
-    {
-        return $this->dbPort;
-    }
-
-    function getDbUser()
-    {
-        return $this->dbUser;
-    }
-
-    function getDbPassword()
-    {
-        return $this->dbPassword;
-    }
-
-    function getDbName()
-    {
-        return $this->dbName;
-    }
-
-    function getWorkDir()
-    {
-        return $this->workDir;
-    }
-
-    function getTargetBackupDir()
-    {
-        return $this->targetBackupDir;
-    }
-
-    function getDbCharset()
-    {
-        return $this->dbCharset;
-    }
-
-    public function getStorageDiskDir()
-    {
-        return $this->storageDiskDir;
-    }
-
-    public function setStorageDiskDir($dir)
-    {
-        $this->storageDiskDir = $dir;
-        return $this;
-    }
-
-    public function getStorageType()
-    {
-        return $this->storageType;
-    }
-
-    public function setStorageType($storageType)
-    {
-        $this->storageType = $storageType;
-        return $this;
-    }
-
-    public function getMoveArchiveToStorage()
-    {
-        return $this->moveArchiveToStorage;
-    }
-
-    public function setMoveArchiveToStorage($moveArchiveToStorage)
-    {
-        $this->moveArchiveToStorage = $moveArchiveToStorage;
-        return $this;
-    }
 }
