@@ -2,6 +2,7 @@
 namespace MysqlBackup;
 
 use MysqlBackup\Storages\DiskStorage;
+use MysqlBackup\Storages\YandexDiskStorage;
 use MysqlBackup\Storages\StorageInterface;
 
 class BackupStorageFactory
@@ -31,6 +32,8 @@ class BackupStorageFactory
         switch ($storageType) {
             case self::STORAGE_DISK:
                 return new DiskStorage();
+            case self::STORAGE_YANDEX_DISK:
+                return new YandexDiskStorage();
             default:
                 throw new \MysqlBackup\BackupException("Bad storage type");
         }

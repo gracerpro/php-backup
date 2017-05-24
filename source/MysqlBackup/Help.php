@@ -20,6 +20,11 @@ class Help
         $console->printMessage("--storageType        Storage type, default '" . BackupStorageFactory::STORAGE_DEFAULT . "'.");
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_DISK . "'");
         $console->printMessage("    --storageDiskDir   Directory for archives, string.");
+        $console->printMessage("  type '" . BackupStorageFactory::STORAGE_FTP . "'");
+        $console->printMessage("    --storageFtpHost   Host, string.");
+        $console->printMessage("    --storageFtpUser   User, string.");
+        $console->printMessage("    --storageFtpPassword   Password, string.");
+        $console->printMessage("    --storageFtpRemoteDir  Remote directory, string.");
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_YANDEX_DISK . "'");
         $console->printMessage("    null");
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_MAIL_CLOUD . "'");

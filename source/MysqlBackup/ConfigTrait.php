@@ -29,16 +29,19 @@ trait ConfigTrait
     private $workDir;
 
     /** @var string */
-    public $mysqlDumpOptions;
+    private $mysqlDumpOptions;
 
     /** @var string */
-    public $storageType;
+    private $storageType;
 
     /** @var string */
-    public $storageDiskDir;
+    private $storageDiskDir;
+
+    /** @var string */
+    private $storageYandexDiskToken;
 
     /** @var bool */
-    public $removeArchiveAfterSync;
+    private $removeArchiveAfterSync;
 
     /** @var string */
     private $targetBackupDir;
@@ -135,6 +138,17 @@ trait ConfigTrait
     public function setMoveArchiveToStorage($removeArchiveAfterSync)
     {
         $this->removeArchiveAfterSync = $removeArchiveAfterSync;
+        return $this;
+    }
+
+    public function getStorageYandexDiskToken()
+    {
+        return $this->storageYandexDiskToken;
+    }
+
+    public function setStorageYandexDiskToken($storageYandexDiskToken)
+    {
+        $this->storageYandexDiskToken = $storageYandexDiskToken;
         return $this;
     }
 }
