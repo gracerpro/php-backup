@@ -73,8 +73,9 @@ class MysqlBackup
 
     private function readInputParameters()
     {
-        $shortOptions = 'f:h::';
+        $shortOptions = 'f:h::b::';
         $longOptions = [
+            'backup::',
             'configFile:',
             'help::',
             'mysqlDumpOptions::',
@@ -84,13 +85,18 @@ class MysqlBackup
         ];
         $options = getopt($shortOptions, $longOptions);
 
+        $this->inputParameters->setEmpty(empty($options));
+        
+        if (isset($options['b']) || isset($options['backup'])) {
+            $this->inputParameters->setRunBuckup(true);
+        }
         if (isset($options['f'])) {
             $this->inputParameters->setConfigFileName($options['f']);
         }
         if (isset($options['configFile'])) {
             $this->inputParameters->setConfigFileName($options['configFile']);
         }
-        if (isset($options['help']) || isset($options['h'])) {
+        if (isset($options['h']) || isset($options['help'])) {
             $this->inputParameters->setHelp(true);
         }
         if (isset($options['mysqlDumpOptions'])) {
@@ -120,18 +126,28 @@ class MysqlBackup
         }
 
         $consoleOut = ConsoleOutput::getInstance();
+        $printDefaultMessage = $this->inputParameters->isEmpty();
 
         try {
-            $creator = $this->createBackupFile();
-            $this->sendBackupToStorage($creator);
+
+            if ($this->inputParameters->getRunBuckup()) {
+                $creator = $this->createBackupFile();
+                
+                $this->sendBackupToStorage($creator);
+            } else {
+                $printDefaultMessage = true;
+            }
+
+            if ($printDefaultMessage) {
+                $consoleOut->printMessage("Use --help parameter for view help.");
+            }
+            
         } catch (\MysqlBackup\BackupException $ex) {
             $consoleOut->printMessage("Global error: " . $ex->getMessage());
         } catch (\Exception $ex) {
             $consoleOut->printMessage("Exception: " . $ex->getMessage());
         }
-
-        // TODO: if nothing in command line and config then print it
-        echo "Use --help for additional inforation.\n";
+        
     }
 
     private function createBackupFile()
@@ -144,9 +160,11 @@ class MysqlBackup
 
     private function sendBackupToStorage(BackupCreator $creator)
     {
+        $consoleOut = ConsoleOutput::getInstance();
         $config = Config::getInstance();
         $storageFactory = new BackupStorageFactory();
         $storageType = $config->getStorageType();
+        $consoleOut->printMessage("Use sorage type: " . $storageType);
         $storage = $storageFactory->create($storageType);
         if (!$storage->save($creator)) {
             throw new \MysqlBackup\BackupException("Could not save to storage");

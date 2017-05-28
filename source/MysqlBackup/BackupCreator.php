@@ -55,11 +55,24 @@ class BackupCreator
             $returnCode = 0;
             exec($command, $output, $returnCode);
             $consoleOut->printMessage("exec() return code: {$returnCode}");
+            if (!file_exists($targetFilePath)) {
+                throw new BackupException("Could not create a file.");
+            }
+            $targetFileSizeInMb = round(filesize($targetFilePath) / 1024 / 1024, 3);
+            $consoleOut->printMessage("Writed {$targetFileSizeInMb} Mb.");
 
             $consoleOut->printMessage("Gzip...");
             $command = "gzip -f -S \".gz\" \"{$targetFilePath}\"";
             exec($command, $output, $returnCode);
             $consoleOut->printMessage("exec() return code: {$returnCode}");
+            $archiveFilePath = $this->getBackupZippedFilePath();
+            if (!file_exists($archiveFilePath)) {
+                throw new BackupException("Could not create a file");
+            }
+            $archiveFileSizeInMb = round(filesize($archiveFilePath) / 1024 / 1024, 3);
+            $compressPercent = round($archiveFileSizeInMb / $targetFileSizeInMb, 2);
+            $consoleOut->printMessage("Writed {$archiveFileSizeInMb} Mb, compressed {$compressPercent}%.");
+            
         } catch (\Exception $ex) {
             $consoleOut->printMessage("Error: {$ex->getMessage}");
             throw $ex;

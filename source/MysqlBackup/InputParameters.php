@@ -1,5 +1,4 @@
 <?php
-
 namespace MysqlBackup;
 
 class InputParameters
@@ -10,6 +9,12 @@ class InputParameters
     /** @var bool */
     private $help;
 
+    /** @var bool */
+    private $empty;
+
+    /** @var bool */
+    private $runBuckup;
+    // TODO: move to trait
     /** @var string */
     private $configFileName;
 
@@ -32,6 +37,28 @@ class InputParameters
     public function setConfigFileName($configFileName)
     {
         $this->configFileName = $configFileName;
+        return $this;
+    }
+
+    public function isEmpty()
+    {
+        return $this->empty;
+    }
+
+    public function setEmpty($empty)
+    {
+        $this->empty = $empty;
+        return $this;
+    }
+
+    public function getRunBuckup()
+    {
+        return $this->runBuckup;
+    }
+
+    public function setRunBuckup($runBuckup)
+    {
+        $this->runBuckup = $runBuckup;
         return $this;
     }
 }
