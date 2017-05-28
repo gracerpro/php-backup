@@ -46,6 +46,9 @@ trait ConfigTrait
     /** @var string */
     private $targetBackupDir;
 
+    /** @var bool */
+    private $debug;
+
     public function getMysqlDumpOptions()
     {
         return $this->mysqlDumpOptions;
@@ -149,6 +152,17 @@ trait ConfigTrait
     public function setStorageYandexDiskToken($storageYandexDiskToken)
     {
         $this->storageYandexDiskToken = $storageYandexDiskToken;
+        return $this;
+    }
+
+    public function getDebug()
+    {
+        return $this->debug;
+    }
+
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
         return $this;
     }
 }

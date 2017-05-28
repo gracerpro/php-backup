@@ -69,14 +69,18 @@ class MysqlBackup
         if ($inputParams->getStorageYandexDiskToken()) {
             $config->setStorageYandexDiskToken($inputParams->getStorageYandexDiskToken());
         }
+        if ($inputParams->getDebug()) {
+            $config->setDebug(true);
+        }
     }
 
     private function readInputParameters()
     {
-        $shortOptions = 'f:h::b::';
+        $shortOptions = 'b::d::f:h::';
         $longOptions = [
             'backup::',
             'configFile:',
+            'debug::',
             'help::',
             'mysqlDumpOptions::',
             'removeArchiveAfterSync::',
@@ -86,23 +90,28 @@ class MysqlBackup
         $options = getopt($shortOptions, $longOptions);
 
         $this->inputParameters->setEmpty(empty($options));
-        
+
         if (isset($options['b']) || isset($options['backup'])) {
             $this->inputParameters->setRunBuckup(true);
-        }
-        if (isset($options['f'])) {
-            $this->inputParameters->setConfigFileName($options['f']);
         }
         if (isset($options['configFile'])) {
             $this->inputParameters->setConfigFileName($options['configFile']);
         }
+        if (isset($options['d']) || isset($options['debug'])) {
+            $this->inputParameters->setDebug(true);
+        }
         if (isset($options['h']) || isset($options['help'])) {
             $this->inputParameters->setHelp(true);
+        }
+        if (isset($options['f'])) {
+            $this->inputParameters->setConfigFileName($options['f']);
         }
         if (isset($options['mysqlDumpOptions'])) {
             $this->inputParameters->setMysqlDumpOptions($options['mysqlDumpOptions']);
         }
-
+        if (isset($options['removeArchiveAfterSync'])) {
+            $this->inputParameters->setRemoveArchiveAfterSync(true);
+        }
         if (isset($options['storageType'])) {
             $this->inputParameters->setStorageType($options['storageType']);
         }
@@ -111,9 +120,6 @@ class MysqlBackup
         }
         if (isset($options['storageYandexDiskToken'])) {
             $this->inputParameters->setStorageYandexDiskToken($options['storageYandexDiskToken']);
-        }
-        if (isset($options['removeArchiveAfterSync'])) {
-            $this->inputParameters->setRemoveArchiveAfterSync(true);
         }
     }
 
@@ -132,7 +138,7 @@ class MysqlBackup
 
             if ($this->inputParameters->getRunBuckup()) {
                 $creator = $this->createBackupFile();
-                
+
                 $this->sendBackupToStorage($creator);
             } else {
                 $printDefaultMessage = true;
@@ -141,13 +147,11 @@ class MysqlBackup
             if ($printDefaultMessage) {
                 $consoleOut->printMessage("Use --help parameter for view help.");
             }
-            
         } catch (\MysqlBackup\BackupException $ex) {
             $consoleOut->printMessage("Global error: " . $ex->getMessage());
         } catch (\Exception $ex) {
             $consoleOut->printMessage("Exception: " . $ex->getMessage());
         }
-        
     }
 
     private function createBackupFile()

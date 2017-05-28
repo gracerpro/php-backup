@@ -19,6 +19,9 @@ class YandexDiskStorage implements StorageInterface
         $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
         $disk = new DiskClient();
+        if ($config->getDebug()) {
+            $disk->setDebug(true);
+        }
         $disk->setAccessToken($config->getStorageYandexDiskToken());
         $filePath = $creator->getBackupZippedFilePath();
         if (!file_exists($filePath)) {

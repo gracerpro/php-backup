@@ -16,6 +16,7 @@ class Help
         $console->printMessage("-h, --help           Show help.");
         $console->printMessage("-b, --backup           Run backup.");
         $console->printMessage("-f, --configFile     Configuration file.");
+        $console->printMessage("-d, --debug          Debug mode.");
         $console->printMessage("--mysqlDumpOptions   Options for mysqldump.");
         $console->printMessage("--removeArchiveAfterSync Remove archive file after syncronize to storage.");
         $console->printMessage("--storageType        Storage type, default '" . BackupStorageFactory::STORAGE_DEFAULT . "'.");
