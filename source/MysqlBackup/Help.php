@@ -28,7 +28,8 @@ class Help
         $console->printMessage("    --storageFtpPassword   Password, string.");
         $console->printMessage("    --storageFtpRemoteDir  Remote directory, string."); */
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_YANDEX_DISK . "'");
-        $console->printMessage("    null");
+        $console->printMessage("    --storageYandexDiskToken");
+        $console->printMessage("    --storageYandexDiskDir");
       /*  $console->printMessage("  type '" . BackupStorageFactory::STORAGE_MAIL_CLOUD . "'");
         $console->printMessage("    null"); */
     }

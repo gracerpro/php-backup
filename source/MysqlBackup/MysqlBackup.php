@@ -69,6 +69,9 @@ class MysqlBackup
         if ($inputParams->getStorageYandexDiskToken()) {
             $config->setStorageYandexDiskToken($inputParams->getStorageYandexDiskToken());
         }
+        if ($inputParams->getStorageYandexDiskDir()) {
+            $config->setStorageYandexDiskDir($inputParams->getStorageYandexDiskDir());
+        }
         if ($inputParams->getDebug()) {
             $config->setDebug(true);
         }
@@ -86,6 +89,8 @@ class MysqlBackup
             'removeArchiveAfterSync::',
             'storageType:',
             'storageDiskDir:',
+            'storageYandexDiskDir:',
+            'storageYandexDiskToken:',
         ];
         $options = getopt($shortOptions, $longOptions);
 
@@ -121,6 +126,10 @@ class MysqlBackup
         if (isset($options['storageYandexDiskToken'])) {
             $this->inputParameters->setStorageYandexDiskToken($options['storageYandexDiskToken']);
         }
+        if (isset($options['storageYandexDiskDir'])) {
+            $this->inputParameters->setStorageYandexDiskDir($options['storageYandexDiskDir']);
+        }
+        //var_dump($options); die;
     }
 
     private function runActions()

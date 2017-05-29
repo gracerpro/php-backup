@@ -40,6 +40,9 @@ trait ConfigTrait
     /** @var string */
     private $storageYandexDiskToken;
 
+    /** @var string */
+    private $storageYandexDiskDir;
+
     /** @var bool */
     private $removeArchiveAfterSync;
 
@@ -163,6 +166,17 @@ trait ConfigTrait
     public function setDebug($debug)
     {
         $this->debug = $debug;
+        return $this;
+    }
+
+    public function getStorageYandexDiskDir()
+    {
+        return $this->storageYandexDiskDir;
+    }
+
+    public function setStorageYandexDiskDir($storageYandexDiskDir)
+    {
+        $this->storageYandexDiskDir = $storageYandexDiskDir;
         return $this;
     }
 }

@@ -18,6 +18,11 @@ class YandexDiskStorage implements StorageInterface
     {
         $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
+        
+        if (!$config->getStorageYandexDiskDir()) {
+            throw new \MysqlBackup\BackupException("Empty yandex disk target directory.");
+        }
+        $targetDir = $this->validateDir($config->getStorageYandexDiskDir());
         $disk = new DiskClient();
         if ($config->getDebug()) {
             $disk->setDebug(true);
@@ -35,9 +40,15 @@ class YandexDiskStorage implements StorageInterface
             'name' => basename($filePath)
         ];
         $consoleOut->printMessage("Upload to yandex disk...");
-        $disk->uploadFile('/wowtransfer.com-db/', $uploadParams);
+        $consoleOut->printMessage("to directory: " . $targetDir);
+        $disk->uploadFile($targetDir, $uploadParams);
         $consoleOut->printMessage("Ok");
 
         return true;
+    }
+    
+    private function validateDir($dir)
+    {
+        return "/" . trim($dir, " \t\n\t/\\") . "/";
     }
 }
