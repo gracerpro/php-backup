@@ -75,6 +75,9 @@ class MysqlBackup
         if ($inputParams->getDebug()) {
             $config->setDebug(true);
         }
+        if ($inputParams->getCleanActiveDay()) {
+            $config->setCleanActiveDay($inputParams->getCleanActiveDay());
+        }
     }
 
     private function readInputParameters()
@@ -82,6 +85,7 @@ class MysqlBackup
         $shortOptions = 'b::d::f:h::';
         $longOptions = [
             'backup::',
+            'clean::',
             'configFile:',
             'debug::',
             'help::',
@@ -98,6 +102,9 @@ class MysqlBackup
 
         if (isset($options['b']) || isset($options['backup'])) {
             $this->inputParameters->setRunBuckup(true);
+        }
+        if (isset($options['clean'])) {
+            $this->inputParameters->setRunClean(true);
         }
         if (isset($options['configFile'])) {
             $this->inputParameters->setConfigFileName($options['configFile']);
@@ -147,8 +154,10 @@ class MysqlBackup
 
             if ($this->inputParameters->getRunBuckup()) {
                 $creator = $this->createBackupFile();
-
                 $this->sendBackupToStorage($creator);
+            } elseif ($this->inputParameters->getRunClean()) {
+                $creator = new BackupCreator();
+                $this->removeOldBackups($creator);
             } else {
                 $printDefaultMessage = true;
             }
@@ -170,12 +179,25 @@ class MysqlBackup
 
         return $creator;
     }
+    
+    private function removeOldBackups(BackupCreator $creator)
+    {
+        $config = Config::getInstance();
+        $consoleOut = ConsoleOutput::getInstance();
+        $storageFactory = new BackupStorageFactory();
+        
+        $storageType = $config->getStorageType();
+        $consoleOut->printMessage("Use sorage type: " . $storageType);
+        $storage = $storageFactory->create($storageType);
+        $storage->removeOldBackups($creator);
+    }
 
     private function sendBackupToStorage(BackupCreator $creator)
     {
         $consoleOut = ConsoleOutput::getInstance();
         $config = Config::getInstance();
         $storageFactory = new BackupStorageFactory();
+        
         $storageType = $config->getStorageType();
         $consoleOut->printMessage("Use sorage type: " . $storageType);
         $storage = $storageFactory->create($storageType);

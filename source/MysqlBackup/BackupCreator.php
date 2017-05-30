@@ -32,7 +32,12 @@ class BackupCreator
      */
     public function getBackupZippedFilePath()
     {
-        return $this->getBackupFilePath() . '.gz';
+        return $this->getBackupFilePath() . '.' . $this->getBackupArchiveExtension();
+    }
+    
+    public function getBackupArchiveExtension()
+    {
+        return 'gz';
     }
 
     /**
@@ -62,7 +67,7 @@ class BackupCreator
             $consoleOut->printMessage("Writed {$targetFileSizeInMb} Mb.");
 
             $consoleOut->printMessage("Gzip...");
-            $command = "gzip -f -S \".gz\" \"{$targetFilePath}\"";
+            $command = "gzip -f -S \".{$this->getBackupArchiveExtension()}\" \"{$targetFilePath}\"";
             exec($command, $output, $returnCode);
             $consoleOut->printMessage("exec() return code: {$returnCode}");
             $archiveFilePath = $this->getBackupZippedFilePath();

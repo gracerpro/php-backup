@@ -14,6 +14,9 @@ class InputParameters
 
     /** @var bool */
     private $runBuckup;
+
+    /** @var bool */
+    private $runClean;
     // TODO: move to trait
     /** @var string */
     private $configFileName;
@@ -59,6 +62,17 @@ class InputParameters
     public function setRunBuckup($runBuckup)
     {
         $this->runBuckup = $runBuckup;
+        return $this;
+    }
+
+    public function getRunClean()
+    {
+        return $this->runClean;
+    }
+
+    public function setRunClean($runClean)
+    {
+        $this->runClean = $runClean;
         return $this;
     }
 }

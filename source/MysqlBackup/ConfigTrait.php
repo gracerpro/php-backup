@@ -52,6 +52,9 @@ trait ConfigTrait
     /** @var bool */
     private $debug;
 
+    /** @var int Time in days, if today - file date >= this field then backup will be removed. */
+    private $cleanActiveDay;
+
     public function getMysqlDumpOptions()
     {
         return $this->mysqlDumpOptions;
@@ -177,6 +180,17 @@ trait ConfigTrait
     public function setStorageYandexDiskDir($storageYandexDiskDir)
     {
         $this->storageYandexDiskDir = $storageYandexDiskDir;
+        return $this;
+    }
+
+    public function getCleanActiveDay()
+    {
+        return $this->cleanActiveDay;
+    }
+
+    public function setCleanActiveDay($cleanActiveDay)
+    {
+        $this->cleanActiveDay = $cleanActiveDay;
         return $this;
     }
 }

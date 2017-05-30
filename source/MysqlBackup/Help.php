@@ -14,7 +14,8 @@ class Help
         
         $console->printMessage("Parameters:");
         $console->printMessage("-h, --help           Show help.");
-        $console->printMessage("-b, --backup           Run backup.");
+        $console->printMessage("-b, --backup         Run backup action.");
+        $console->printMessage("-- clean             Run clean action.");
         $console->printMessage("-f, --configFile     Configuration file.");
         $console->printMessage("-d, --debug          Debug mode.");
         $console->printMessage("--mysqlDumpOptions   Options for mysqldump.");
