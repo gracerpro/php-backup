@@ -46,6 +46,9 @@ trait ConfigTrait
     /** @var string */
     private $storageGoogleDriveFolderId;
 
+    /** @var string */
+    private $storageGoogleDriveKeyFile;
+
     /** @var bool */
     private $removeArchiveAfterSync;
 
@@ -205,6 +208,28 @@ trait ConfigTrait
     public function setStorageGoogleDriveFolderId($folderId)
     {
         $this->storageGoogleDriveFolderId = $folderId;
+        return $this;
+    }
+
+    /**
+     * @return string File path to key file
+     */
+    public function getStorageGoogleDriveKeyFile()
+    {
+        if (is_file($this->storageGoogleDriveKeyFile)) {
+            return $this->storageGoogleDriveKeyFile;
+        }
+        $name = basename($this->storageGoogleDriveKeyFile);
+        $filePath = \MysqlBackup\MysqlBackup::getProjectDir() . '/' . $name;
+        if (is_file($this->storageGoogleDriveKeyFile)) {
+            return $filePath;
+        }
+        return '';
+    }
+
+    public function setStorageGoogleDriveKeyFile($file)
+    {
+        $this->storageGoogleDriveKeyFile = $file;
         return $this;
     }
 }

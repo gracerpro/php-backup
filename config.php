@@ -16,6 +16,6 @@ return [
     'storageYandexDiskToken' => '',
     'storageYandexDiskDir' => '',
     //   google disk
-    'storageGoogleDriveKeyFile' => '',
+    'storageGoogleDriveKeyFile' => 'google-drive-key.json',
     'storageGoogleDriveFolderId' => '',
 ];

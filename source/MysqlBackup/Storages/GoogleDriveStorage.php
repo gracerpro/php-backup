@@ -6,8 +6,7 @@ class GoogleDriveStorage implements StorageInterface
 
     public function removeOldBackups(\MysqlBackup\BackupCreator $creator)
     {
-        $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
-        $consoleOut->printMessage("TODO");
+        throw new \MysqlBackup\BackupException("TODO: removeOldBackups");
     }
 
     /**
@@ -24,7 +23,7 @@ class GoogleDriveStorage implements StorageInterface
         }
 
         $client = new \Google_Client();
-        $oauthConfigPath = \MysqlBackup\MysqlBackup::getProjectDir() . '/f597bcc83c2d.json';
+        $oauthConfigPath = $config->getStorageGoogleDriveKeyFile();
         $client->setAuthConfig($oauthConfigPath);
         $client->addScope(\Google_Service_Drive::DRIVE);
 

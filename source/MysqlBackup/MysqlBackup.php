@@ -74,6 +74,9 @@ class MysqlBackup
         if ($inputParams->getStorageGoogleDriveFolderId()) {
             $config->setStorageGoogleDriveFolderId($inputParams->getStorageGoogleDriveFolderId());
         }
+        if ($inputParams->getStorageGoogleDriveKeyFile()) {
+            $config->setStorageGoogleDriveKeyFile($inputParams->getStorageGoogleDriveKeyFile());
+        }
         if ($inputParams->getStorageYandexDiskToken()) {
             $config->setStorageYandexDiskToken($inputParams->getStorageYandexDiskToken());
         }
@@ -102,6 +105,7 @@ class MysqlBackup
             'storageType:',
             'storageDiskDir:',
             'storageGoogleDriveFolderId:',
+            'storageGoogleDriveKeyFile:',
             'storageYandexDiskDir:',
             'storageYandexDiskToken:',
         ];
@@ -109,6 +113,7 @@ class MysqlBackup
 
         $this->inputParameters->setEmpty(empty($options));
 
+        // TODO: optimize this block
         if (isset($options['b']) || isset($options['backup'])) {
             $this->inputParameters->setRunBuckup(true);
         }
@@ -142,13 +147,15 @@ class MysqlBackup
         if (isset($options['storageGoogleDriveFolderId'])) {
             $this->inputParameters->setStorageGoogleDriveFolderId($options['storageGoogleDriveFolderId']);
         }
+        if (isset($options['storageGoogleDriveKeyFile'])) {
+            $this->inputParameters->setStorageGoogleDriveKeyFile($options['storageGoogleDriveKeyFile']);
+        }
         if (isset($options['storageYandexDiskToken'])) {
             $this->inputParameters->setStorageYandexDiskToken($options['storageYandexDiskToken']);
         }
         if (isset($options['storageYandexDiskDir'])) {
             $this->inputParameters->setStorageYandexDiskDir($options['storageYandexDiskDir']);
         }
-        //var_dump($options); die;
     }
 
     private function runActions()
@@ -199,7 +206,7 @@ class MysqlBackup
         $storageFactory = new BackupStorageFactory();
         
         $storageType = $config->getStorageType();
-        $consoleOut->printMessage("Use sorage type: " . $storageType);
+        $consoleOut->printMessage("Use ssorage type: " . $storageType);
         $storage = $storageFactory->create($storageType);
         $storage->removeOldBackups($creator);
     }
@@ -211,7 +218,7 @@ class MysqlBackup
         $storageFactory = new BackupStorageFactory();
         
         $storageType = $config->getStorageType();
-        $consoleOut->printMessage("Use sorage type: " . $storageType);
+        $consoleOut->printMessage("Use storage type: " . $storageType);
         $storage = $storageFactory->create($storageType);
         if (!$storage->save($creator)) {
             throw new \MysqlBackup\BackupException("Could not save to storage");

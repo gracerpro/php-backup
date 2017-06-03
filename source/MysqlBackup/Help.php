@@ -26,6 +26,7 @@ class Help
         $console->printMessage("    --storageDiskDir   Directory for archives, string.");
 
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_GOOGLE_DRIVE . "'");
+        $console->printMessage("    --storageGoogleDriveKeyFile   File name or path to kye file.");
         $console->printMessage("    --storageGoogleDriveFolderId  Folder ID, see in the web url.");
 
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_YANDEX_DISK . "'");
