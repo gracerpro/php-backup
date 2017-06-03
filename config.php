@@ -9,10 +9,13 @@ return [
     'dbCharset' => 'utf8',
     'removeArchiveAfterSync' => false,
     'storageType' => 'disk',
-    // disk
+    //   disk
     'storageDiskDir' => '',
-    // yandex disk
+    //   yandex disk
     // https://oauth.yandex.ru/authorize?response_type=token&client_id=xxx
     'storageYandexDiskToken' => '',
     'storageYandexDiskDir' => '',
+    //   google disk
+    'storageGoogleDriveKeyFile' => '',
+    'storageGoogleDriveFolderId' => '',
 ];

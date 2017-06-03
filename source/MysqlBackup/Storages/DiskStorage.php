@@ -10,14 +10,14 @@ class DiskStorage implements StorageInterface
 
     public function save(BackupCreator $creator)
     {
+        $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
+
         $dir = $config->getStorageDiskDir();
         $this->checkTargetDir($dir);
         $sourceFilePath = $creator->getBackupZippedFilePath();
         $destFilePath = $dir . '/' . basename($sourceFilePath);
 
-        $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
-        //var_dump($config->getMoveArchiveToStorage()); die;
         if ($config->getMoveArchiveToStorage()) {
             $consoleOut->printMessage("Rename file");
             $consoleOut->printMessage("from: {$sourceFilePath}");

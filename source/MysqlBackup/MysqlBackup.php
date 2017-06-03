@@ -16,6 +16,11 @@ class MysqlBackup
         $this->inputParameters = new InputParameters();
     }
 
+    public static function getProjectDir()
+    {
+        return __DIR__ . '/../..';
+    }
+
     public function run()
     {
         echo "MySQL backup version ", MysqlBackup::VERSION, "\n";
@@ -66,6 +71,9 @@ class MysqlBackup
         if ($inputParams->getRemoveArchiveAfterSync()) {
             $config->setMoveArchiveToStorage($inputParams->getRemoveArchiveAfterSync());
         }
+        if ($inputParams->getStorageGoogleDriveFolderId()) {
+            $config->setStorageGoogleDriveFolderId($inputParams->getStorageGoogleDriveFolderId());
+        }
         if ($inputParams->getStorageYandexDiskToken()) {
             $config->setStorageYandexDiskToken($inputParams->getStorageYandexDiskToken());
         }
@@ -93,6 +101,7 @@ class MysqlBackup
             'removeArchiveAfterSync::',
             'storageType:',
             'storageDiskDir:',
+            'storageGoogleDriveFolderId:',
             'storageYandexDiskDir:',
             'storageYandexDiskToken:',
         ];
@@ -129,6 +138,9 @@ class MysqlBackup
         }
         if (isset($options['storageDiskDir'])) {
             $this->inputParameters->setStorageDiskDir($options['storageDiskDir']);
+        }
+        if (isset($options['storageGoogleDriveFolderId'])) {
+            $this->inputParameters->setStorageGoogleDriveFolderId($options['storageGoogleDriveFolderId']);
         }
         if (isset($options['storageYandexDiskToken'])) {
             $this->inputParameters->setStorageYandexDiskToken($options['storageYandexDiskToken']);

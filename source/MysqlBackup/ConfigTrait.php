@@ -43,6 +43,9 @@ trait ConfigTrait
     /** @var string */
     private $storageYandexDiskDir;
 
+    /** @var string */
+    private $storageGoogleDriveFolderId;
+
     /** @var bool */
     private $removeArchiveAfterSync;
 
@@ -191,6 +194,17 @@ trait ConfigTrait
     public function setCleanActiveDay($cleanActiveDay)
     {
         $this->cleanActiveDay = $cleanActiveDay;
+        return $this;
+    }
+
+    public function getStorageGoogleDriveFolderId()
+    {
+        return $this->storageGoogleDriveFolderId;
+    }
+
+    public function setStorageGoogleDriveFolderId($folderId)
+    {
+        $this->storageGoogleDriveFolderId = $folderId;
         return $this;
     }
 }
