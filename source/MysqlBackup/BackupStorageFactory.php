@@ -4,7 +4,7 @@ namespace MysqlBackup;
 use MysqlBackup\Storages\DiskStorage;
 use MysqlBackup\Storages\YandexDiskStorage;
 use MysqlBackup\Storages\StorageInterface;
-use MysqlBackup\Storages\GoogleDiskStorage;
+use MysqlBackup\Storages\GoogleDriveStorage;
 
 class BackupStorageFactory
 {
@@ -12,7 +12,7 @@ class BackupStorageFactory
     const STORAGE_DISK = 'disk';
     const STORAGE_FTP = 'ftp';
     const STORAGE_YANDEX_DISK = 'yandex_disk';
-    const STORAGE_GOOGLE_DISK = 'google_disk';
+    const STORAGE_GOOGLE_DRIVE = 'google_disk';
     const STORAGE_MAIL_CLOUD = 'mail_cloud';
     const STORAGE_DEFAULT = self::STORAGE_DISK;
 
@@ -36,8 +36,8 @@ class BackupStorageFactory
                 return new DiskStorage();
             case self::STORAGE_YANDEX_DISK:
                 return new YandexDiskStorage();
-            case self::STORAGE_GOOGLE_DISK:
-                return new GoogleDiskStorage();
+            case self::STORAGE_GOOGLE_DRIVE:
+                return new GoogleDriveStorage();
             default:
                 throw new \MysqlBackup\BackupException("Bad storage type");
         }

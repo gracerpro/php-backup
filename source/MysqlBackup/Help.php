@@ -25,7 +25,7 @@ class Help
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_DISK . "' (default)");
         $console->printMessage("    --storageDiskDir   Directory for archives, string.");
 
-        $console->printMessage("  type '" . BackupStorageFactory::STORAGE_GOOGLE_DISK . "'");
+        $console->printMessage("  type '" . BackupStorageFactory::STORAGE_GOOGLE_DRIVE . "'");
         $console->printMessage("    --storageGoogleDriveFolderId  Folder ID, see in the web url.");
 
         $console->printMessage("  type '" . BackupStorageFactory::STORAGE_YANDEX_DISK . "'");

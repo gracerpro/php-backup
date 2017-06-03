@@ -1,7 +1,7 @@
 <?php
 namespace MysqlBackup\Storages;
 
-class GoogleDiskStorage implements StorageInterface
+class GoogleDriveStorage implements StorageInterface
 {
 
     public function removeOldBackups(\MysqlBackup\BackupCreator $creator)
