@@ -1,7 +1,6 @@
 <?php
-$projectDir = realpath(__DIR__ . '/../..');
-$sourceDir = __DIR__;
-include_once $sourceDir . '/MysqlBackup.php';
+$projectDir = __DIR__;
+
 include_once $projectDir . '/vendor/autoload.php';
 
 spl_autoload_register(function($className) use ($projectDir) {
@@ -12,5 +11,11 @@ spl_autoload_register(function($className) use ($projectDir) {
     }
 });
 
+$config = [];
+$configFile = __DIR__ . '/config-local.php';
+if (is_file($configFile)) {
+    $config = require $configFile;
+}
+
 $mysqlBackup = new \MysqlBackup\MysqlBackup();
-$mysqlBackup->run();
+$mysqlBackup->run($config);

@@ -13,6 +13,28 @@ class Config
     {
         $this->targetBackupDir = "~";
         $this->workDir = '.';
+
+        $this->dbHost = '127.0.0.1';
+        $this->dbPort = 3306;
+        $this->dbUser = '';
+        $this->dbPassword = '';
+        $this->dbName = '';
+        $this->dbCharset = 'utf8';
+
+        $this->removeArchiveAfterSync = false;
+        $this->storageType = BackupStorageFactory::STORAGE_DISK;
+
+        // disk
+        $this->storageDiskDir = '';
+
+        // yandex disk
+        // https://oauth.yandex.ru/authorize?response_type=token&client_id=xxx
+        $this->storageYandexDiskToken = '';
+        $this->storageYandexDiskDir = '';
+
+        // google drive
+        $this->storageGoogleDriveKeyFile = 'google-drive-key.json';
+        $this->storageGoogleDriveFolderId = '';
     }
 
     /**
@@ -41,5 +63,4 @@ class Config
             }
         }
     }
-
 }

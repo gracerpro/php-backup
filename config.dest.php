@@ -2,20 +2,19 @@
 
 return [
     'dbHost' => '',
-    'dbPort' => 3306,
+    'dbPort' => 0,
     'dbUser' => '',
     'dbPassword' => '',
     'dbName' => '',
-    'dbCharset' => 'utf8',
+    'dbCharset' => '',
     'removeArchiveAfterSync' => false,
-    'storageType' => 'disk',
-    //   disk
+    'storageType' => '',
+    // disk
     'storageDiskDir' => '',
-    //   yandex disk
-    // https://oauth.yandex.ru/authorize?response_type=token&client_id=xxx
+    // yandex disk
     'storageYandexDiskToken' => '',
     'storageYandexDiskDir' => '',
-    //   google disk
-    'storageGoogleDriveKeyFile' => 'google-drive-key.json',
+    // google drive
+    'storageGoogleDriveKeyFile' => '',
     'storageGoogleDriveFolderId' => '',
 ];

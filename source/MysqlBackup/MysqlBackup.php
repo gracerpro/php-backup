@@ -21,35 +21,39 @@ class MysqlBackup
         return __DIR__ . '/../..';
     }
 
-    public function run()
+    public function run($config = [])
     {
-        echo "MySQL backup version ", MysqlBackup::VERSION, "\n";
+        $consoleOut = ConsoleOutput::getInstance();
+        $consoleOut->printMessage('MySQL backup version "' . MysqlBackup::VERSION . '"');
 
         try {
+            $this->readConfig($config);
             $this->readInputParameters();
-            $this->readConfig();
+            if ($this->inputParameters->getConfigFileName()) {
+                $this->reopenConfig($this->inputParameters->getConfigFileName());
+            }
             $this->writeInputParametersToConfig();
             $this->init();
             $this->runActions();
-            echo "Bay\n";
+            $consoleOut->printMessage("Bay.");
         } catch (\Exception $ex) {
-            echo "Error: ", $ex->getMessage(), "\n";
+            $consoleOut->printMessage("Error: " . $ex->getMessage());
         }
     }
 
-    private function readConfig()
+    private function reopenConfig($fileName)
     {
-        $configFileName = 'config-local.php';
-        if ($this->inputParameters->getConfigFileName()) {
-            $configFileName = $this->inputParameters->getConfigFileName();
+        if (is_file($fileName)) {
+            $configArr = file_get_contents($fileName);
+            return $this->readConfig($configArr);
         }
+        throw new BackupException('Could not open the configuration file "' . $fileName . '"');
+    }
 
-        $configMain = require 'config.php';
-        $configLocal = require $configFileName;
-        $configCommon = array_merge($configMain, $configLocal);
-
+    private function readConfig($configArr)
+    {
         $config = Config::getInstance();
-        $config->read($configCommon);
+        $config->read($configArr);
     }
 
     private function init()
