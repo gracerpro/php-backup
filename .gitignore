@@ -1,4 +1,6 @@
+/build
 /nbproject/private/
 /vendor
 
 config-local.php
+google-drive-key.json
