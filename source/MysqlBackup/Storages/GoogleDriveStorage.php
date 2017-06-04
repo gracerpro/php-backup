@@ -22,8 +22,13 @@ class GoogleDriveStorage implements StorageInterface
             throw new \MysqlBackup\BackupException("Empty folder ID.");
         }
 
-        $client = new \Google_Client();
         $oauthConfigPath = $config->getStorageGoogleDriveKeyFile();
+        if (!is_file($oauthConfigPath)) {
+            $message = 'Google drive key file not found, path: "' . $oauthConfigPath. '"';
+            throw new \MysqlBackup\BackupException($message);
+        }
+
+        $client = new \Google_Client();
         $client->setAuthConfig($oauthConfigPath);
         $client->addScope(\Google_Service_Drive::DRIVE);
 

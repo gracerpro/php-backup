@@ -16,9 +16,9 @@ class MysqlBackup
         $this->inputParameters = new InputParameters();
     }
 
-    public static function getProjectDir()
+    public static function getRuningDir()
     {
-        return __DIR__ . '/../..';
+        return getcwd();
     }
 
     public function run($config = [])
@@ -220,7 +220,7 @@ class MysqlBackup
         $consoleOut = ConsoleOutput::getInstance();
         $config = Config::getInstance();
         $storageFactory = new BackupStorageFactory();
-        
+
         $storageType = $config->getStorageType();
         $consoleOut->printMessage("Use storage type: " . $storageType);
         $storage = $storageFactory->create($storageType);

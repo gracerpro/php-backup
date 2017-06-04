@@ -220,8 +220,8 @@ trait ConfigTrait
             return $this->storageGoogleDriveKeyFile;
         }
         $name = basename($this->storageGoogleDriveKeyFile);
-        $filePath = \MysqlBackup\MysqlBackup::getProjectDir() . '/' . $name;
-        if (is_file($this->storageGoogleDriveKeyFile)) {
+        $filePath = \MysqlBackup\MysqlBackup::getRuningDir() . '/' . $name;
+        if (is_file($filePath)) {
             return $filePath;
         }
         return '';

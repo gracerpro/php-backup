@@ -1,6 +1,11 @@
 <?php
 $projectDir = __DIR__;
 
+if (php_sapi_name() != 'cli') {
+    echo "This script works only in console.";
+    exit;
+}
+
 include_once $projectDir . '/vendor/autoload.php';
 
 spl_autoload_register(function($className) use ($projectDir) {
@@ -12,7 +17,8 @@ spl_autoload_register(function($className) use ($projectDir) {
 });
 
 $config = [];
-$configFile = __DIR__ . '/config-local.php';
+$configFile = getcwd() . '/config-local.php';
+
 if (is_file($configFile)) {
     $config = require $configFile;
 }
