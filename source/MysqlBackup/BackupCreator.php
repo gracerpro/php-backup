@@ -74,6 +74,9 @@ class BackupCreator
         $returnCode = 0;
         exec($command, $output, $returnCode);
         $consoleOut->printMessage("exec() return code: {$returnCode}");
+        if ($returnCode) {
+            throw new BackupException("mysqldump errors!");
+        }
         if (!$targetFilePath || !is_file($targetFilePath)) {
             throw new BackupException("Could not create a file.");
         }

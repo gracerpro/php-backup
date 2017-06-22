@@ -1,5 +1,4 @@
 <?php
-
 return [
     'dbHost' => '',
     'dbPort' => 0,
