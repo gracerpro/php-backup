@@ -188,6 +188,7 @@ class MysqlBackup
             if ($this->inputParameters->getRunBuckup()) {
                 $creator = $this->createBackupFile();
                 $this->sendBackupToStorage($creator);
+                $this->removeBackupFile($creator);
             } elseif ($this->inputParameters->getRunClean()) {
                 $creator = new BackupCreator();
                 $this->removeOldBackups($creator);
@@ -203,6 +204,25 @@ class MysqlBackup
         } catch (\Exception $ex) {
             $consoleOut->printMessage("Exception: " . $ex->getMessage());
         }
+    }
+
+    private function removeBackupFile(BackupCreator $creator)
+    {
+        $consoleOut = ConsoleOutput::getInstance();
+
+        $consoleOut->printMessage("Remove backup files from disk.");
+
+        if (is_file($creator->getBackupFilePath())) {
+            $consoleOut->printMessage("Remove backup file...");
+            $result = unlink($creator->getBackupFilePath());
+            $consoleOut->printMessage("status: " . ($result ? 'succes' : 'failed'));
+        }
+        if (is_file($creator->getBackupZippedFilePath())) {
+            $consoleOut->printMessage("Remove backup archive file...");
+            $result = unlink($creator->getBackupZippedFilePath());
+            $consoleOut->printMessage("status: " . ($result ? 'succes' : 'failed'));
+        }
+        $consoleOut->printMessage("Ok.");
     }
 
     private function createBackupFile()
