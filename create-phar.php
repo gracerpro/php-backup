@@ -1,20 +1,21 @@
 <?php
 echo "Create phar archive.\n";
 
+$projectDir = dirname(__FILE__);
 $buildDir = __DIR__ . '/build';
 $fileName = 'php-backup.phar';
 $buildFilePath = $buildDir . '/' . $fileName;
 
-$phar = new Phar($buildFilePath, 0, $fileName);
+$phar = new Phar($buildFilePath, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, $fileName);
 
 echo "Build...\n";
-$phar->buildFromDirectory(__DIR__, '/vendor/');
-$phar->buildFromDirectory(__DIR__, '/source/');
-$phar->addFile('config.dest.php');
-$phar->addFile('README.md');
-$phar->addFile('index.php');
+$phar->buildFromDirectory($projectDir, '/vendor/');
+$phar->buildFromDirectory($projectDir . '/source');
+$phar->addFile($projectDir . '/config.dest.php');
+$phar->addFile($projectDir . '/README.md');
+$phar->addFile($projectDir . '/index.php');
 
-$phar->setStub($phar->createDefaultStub('index.php'));
+//$phar->setStub($phar->createDefaultStub($projectDir . '/index.php'));
 
 echo "Compress...\n";
 if (Phar::canCompress(Phar::GZ)) {

@@ -16,9 +16,19 @@ class MysqlBackup
         $this->inputParameters = new InputParameters();
     }
 
+    /**
+     * @return string
+     */
     public static function getRuningDir()
     {
-        return getcwd();
+        $isPharArchive = strtolower(substr(__FILE__, 0, 5)) == 'phar:';
+        if ($isPharArchive) {
+            $dir = dirname(\Phar::running(false));
+        } else {
+            $dir = dirname(__FILE__) . '/../..';
+        }
+
+        return $dir;
     }
 
     public function run($config = [])

@@ -1,24 +1,38 @@
 <?php
-$projectDir = __DIR__;
 
 if (php_sapi_name() != 'cli') {
-    echo "This script works only in console.";
+    echo "This script works only in console.\n";
     exit;
 }
 
-include_once $projectDir . '/vendor/autoload.php';
+$projectDir = __DIR__;
 
-spl_autoload_register(function($className) use ($projectDir) {
-    $classNameWithSlashes = str_replace('\\', '/', $className);
-    $filePath = $projectDir . '/source/' . $classNameWithSlashes . '.php';
-    if (file_exists($filePath)) {
-        require_once $filePath;
-    }
-});
+include_once $projectDir . '/vendor/autoload.php';
+$isPharArchive = strtolower(substr(__FILE__, 0, 5)) == 'phar:';
+if ($isPharArchive) {
+    spl_autoload_register(function ($className) {
+        $classNameWithSlashes = str_replace('\\', '/', $className);
+        $filePath = __DIR__ . '/' . $classNameWithSlashes . '.php';
+        echo $filePath, "\n";
+        var_dump(file_exists($filePath));
+        echo __FILE__, "\n";
+        var_dump(file_exists(__FILE__));
+        if (file_exists($filePath)) {
+            include_once $filePath;
+        }
+    });
+} else {
+    spl_autoload_register(function($className) {
+        $classNameWithSlashes = str_replace('\\', '/', $className);
+        $filePath = __DIR__ . '/source/' . $classNameWithSlashes . '.php';
+        if (file_exists($filePath)) {
+            require_once $filePath;
+        }
+    });
+}
 
 $config = [];
-$configFile = getcwd() . '/config-local.php';
-
+$configFile = \MysqlBackup\MysqlBackup::getRuningDir() . '/config-local.php';
 if (is_file($configFile)) {
     $config = require $configFile;
 }
