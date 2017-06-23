@@ -9,6 +9,9 @@ class MysqlBackup
     /** @var InputParameters */
     private $inputParameters;
 
+    /** @var array */
+    private $sourseConfig;
+
     const VERSION = "1.0";
 
     public function __construct()
@@ -54,8 +57,13 @@ class MysqlBackup
     private function reopenConfig($fileName)
     {
         if (is_file($fileName)) {
-            $configArr = file_get_contents($fileName);
-            return $this->readConfig($configArr);
+            $configArr = require $fileName;
+            if (!is_array($configArr)) {
+                throw new BackupException("Config is not an array.");
+            }
+            $newConfig = array_merge($this->sourseConfig, $configArr);
+
+            return $this->readConfig($newConfig);
         }
         throw new BackupException('Could not open the configuration file "' . $fileName . '"');
     }
@@ -64,6 +72,8 @@ class MysqlBackup
     {
         $config = Config::getInstance();
         $config->read($configArr);
+
+        $this->sourseConfig = $configArr;
     }
 
     private function init()
