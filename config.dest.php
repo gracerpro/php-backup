@@ -1,13 +1,14 @@
 <?php
 return [
-    'dbHost' => '',
-    'dbPort' => 0,
+    'dbHost' => 'localhost',
+    'dbPort' => 3306,
     'dbUser' => '',
     'dbPassword' => '',
     'dbName' => '',
     'dbCharset' => '',
     'removeArchiveAfterSync' => false,
     'storageType' => '',
+    'targetBackupDir' => '',
     // disk
     'storageDiskDir' => '',
     // yandex disk
