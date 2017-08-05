@@ -8,7 +8,9 @@ return [
     'dbCharset' => '',
     'removeArchiveAfterSync' => false,
     'storageType' => '',
-    'targetBackupDir' => '',
+    'tempBackupDir' => '',
+    'backupTargerDir' => '',
+    'backupTargerDirName' => '',
     // disk
     'storageDiskDir' => '',
     // yandex disk

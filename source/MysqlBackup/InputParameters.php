@@ -17,6 +17,15 @@ class InputParameters
 
     /** @var bool */
     private $runClean;
+
+    /** @var bool */
+    private $runBackupDirAction;
+
+    /** @var string */
+    private $backupTargerDir;
+
+    /** @var string */
+    private $backupTargerDirName;
     // TODO: move to trait
     /** @var string */
     private $configFileName;
@@ -73,6 +82,39 @@ class InputParameters
     public function setRunClean($runClean)
     {
         $this->runClean = $runClean;
+        return $this;
+    }
+
+    public function isRunBackupDirAction()
+    {
+        return $this->runBackupDirAction;
+    }
+
+    public function setIsRunBackupDirAction($value = true)
+    {
+        $this->runBackupDirAction = $value;
+        return $this;
+    }
+
+    public function getBackupTargerDirName()
+    {
+        return $this->backupTargerDirName;
+    }
+
+    public function setBackupTargerDirName($value)
+    {
+        $this->backupTargerDirName = $value;
+        return $this;
+    }
+
+    public function getBackupTargerDir()
+    {
+        return $this->backupTargerDir;
+    }
+
+    public function setBackupTargerDir($value)
+    {
+        $this->backupTargerDir = $value;
         return $this;
     }
 }

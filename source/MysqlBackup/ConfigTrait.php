@@ -53,7 +53,7 @@ trait ConfigTrait
     private $removeArchiveAfterSync;
 
     /** @var string */
-    private $targetBackupDir;
+    private $tempBackupDir;
 
     /** @var bool */
     private $debug;
@@ -113,9 +113,9 @@ trait ConfigTrait
         return $this->workDir;
     }
 
-    function getTargetBackupDir()
+    function getTempBackupDir()
     {
-        return $this->targetBackupDir;
+        return $this->tempBackupDir;
     }
 
     function getDbCharset()

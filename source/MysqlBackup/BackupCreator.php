@@ -1,7 +1,7 @@
 <?php
 namespace MysqlBackup;
 
-class BackupCreator
+class BackupCreator extends BackupCreatorBase
 {
 
     // TODO: move to config
@@ -15,6 +15,11 @@ class BackupCreator
         $this->frequencyCreation = self::FRECUENCY_DAY;
     }
 
+    public function getBackupZippedFilePath(): string
+    {
+        return $this->getBackupFilePath() . '.' . $this->getBackupArchiveExtension();
+    }
+
     /**
      * @return string
      * @throws BackupException
@@ -23,22 +28,9 @@ class BackupCreator
     {
         $config = Config::getInstance();
         if ($this->frequencyCreation === self::FRECUENCY_DAY) {
-            return $config->getTargetBackupDir() . '/' . date('Y-m-d') . '_' . $config->getDbName() . '.sql';
+            return $config->getTempBackupDir() . '/' . date('Y-m-d') . '_' . $config->getDbName() . '.sql';
         }
         throw new BackupException("Unknown frequency of a creation.");
-    }
-
-    /**
-     * @return string
-     */
-    public function getBackupZippedFilePath()
-    {
-        return $this->getBackupFilePath() . '.' . $this->getBackupArchiveExtension();
-    }
-
-    public function getBackupArchiveExtension()
-    {
-        return 'gz';
     }
 
     /**
@@ -106,7 +98,7 @@ class BackupCreator
     private function checkDatabaseOptions()
     {
         $config = Config::getInstance();
-        
+
         if (!$config->getDbHost()) {
             throw new BackupException("Empty database host.");
         }

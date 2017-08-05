@@ -11,7 +11,7 @@ class Config
 
     private function __construct()
     {
-        $this->targetBackupDir = "~";
+        $this->tempBackupDir = "~";
         $this->workDir = '.';
 
         $this->dbHost = '127.0.0.1';

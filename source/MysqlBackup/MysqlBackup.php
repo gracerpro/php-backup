@@ -120,6 +120,9 @@ class MysqlBackup
         $shortOptions = 'b::d::f:h::';
         $longOptions = [
             'backup::',
+            'backupDir::',
+            'backupTargetDir:',
+            'backupTargetDirName:',
             'clean::',
             'configFile:',
             'debug::',
@@ -140,6 +143,15 @@ class MysqlBackup
         // TODO: optimize this block
         if (isset($options['b']) || isset($options['backup'])) {
             $this->inputParameters->setRunBuckup(true);
+        }
+        if (isset($options['backupDir'])) {
+            $this->inputParameters->setIsRunBackupDirAction(true);
+        }
+        if (isset($options['backupTargerDirName'])) {
+            $this->inputParameters->setBackupTargerDirName($options['backupTargetDirName']);
+        }
+        if (isset($options['backupTargetDir'])) {
+            $this->inputParameters->setBackupTargerDir($options['backupTargetDir']);
         }
         if (isset($options['clean'])) {
             $this->inputParameters->setRunClean(true);
@@ -202,7 +214,11 @@ class MysqlBackup
             } elseif ($this->inputParameters->getRunClean()) {
                 $creator = new BackupCreator();
                 $this->removeOldBackups($creator);
-            } else {
+            } elseif ($this->inputParameters->isRunBackupDirAction()) {
+                $creator = new DirBackupCreator($this->inputParameters->getBackupTargerDir());
+                $creator->create();
+                
+            } else {                
                 $printDefaultMessage = true;
             }
 

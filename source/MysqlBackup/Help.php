@@ -15,11 +15,14 @@ class Help
         $console->printMessage("Parameters:");
         $console->printMessage("-h, --help           Show help.");
         $console->printMessage("-b, --backup         Run backup action.");
+        $console->printMessage("--backupDir          Run backup of the directory action.");
+        $console->printMessage("--backupTargerDirName Target directory name for backup.");
         $console->printMessage("--clean              Run clean action.");
         $console->printMessage("-f, --configFile     Configuration file, default 'config-local.php'.");
         $console->printMessage("-d, --debug          Debug mode.");
         $console->printMessage("--mysqlDumpOptions   Options for mysqldump.");
         $console->printMessage("--removeArchiveAfterSync Remove archive file after syncronize to storage.");
+        
         $console->printMessage("--storageType        Storage type, default '" . BackupStorageFactory::STORAGE_DEFAULT . "\".");
 
         $console->printMessage("  type \"" . BackupStorageFactory::STORAGE_DISK . "\" (default)");
