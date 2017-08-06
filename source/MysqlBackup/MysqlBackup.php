@@ -85,7 +85,7 @@ class MysqlBackup
     {
         $config = Config::getInstance();
         $inputParams = $this->inputParameters;
-        //var_dump($inputParams); die;
+
         if ($inputParams->getStorageType()) {
             $config->setStorageType($inputParams->getStorageType());
         }

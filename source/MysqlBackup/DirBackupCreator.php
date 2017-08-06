@@ -32,19 +32,40 @@ class DirBackupCreator extends BackupCreatorBase
         $directories = $this->getRealDirectories();
         $consoleOut->printMessage("Project dir: {$this->projectDirectory}");
         foreach ($this->targetDirectories as $directory) {
-            $consoleOut->printMessage("  compress dir: {$directory}");
+            $consoleOut->printMessage("  subdir: {$directory}");
         }
         $consoleOut->printMessage("Target file path: {$targetFilePath}");
 
         try {
-            $zip = new ZipArchive();
-        } catch (\Exception $ex) {
+            $zip = new \ZipArchive();
+            if (!$zip->open($targetFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
+                throw new BackupException("Could not open zip archive {$targetFilePath}");
+            }
 
+            $rootIndex = strlen($this->projectDirectory) + 1;
+            foreach ($directories as $directory) {
+                $directoryIterator = new \RecursiveDirectoryIterator($directory);
+                $files = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::LEAVES_ONLY);
+                foreach ($files as $name => $file) {
+                    if (!$file->isDir()) {
+                        $filePath = $file->getRealPath();
+                        $relativePath = substr($filePath, $rootIndex);
+                        $zip->addFile($filePath, $relativePath);
+                    }
+                }
+            }
+            $zip->close();
+        } catch (BackupException $ex) {
+            throw $ex;
+        } catch (\Exception $ex) {
             throw new BackupException("Create directory backup fail.");
         }
+
+        $sizeInMb = round(filesize($targetFilePath) / 1024 / 1024, 3);
+        $consoleOut->printMessage("Archive file size: {$sizeInMb} Mb.");
     }
 
-    private function getRealDirectories()
+    private function getRealDirectories(): array
     {
         $directories = [];
         $config = Config::getInstance();
@@ -52,7 +73,6 @@ class DirBackupCreator extends BackupCreatorBase
         foreach ($this->targetDirectories as $dir) {
             $directories[] = $this->projectDirectory . '/' . $dir;
         }
-       // var_dump($directories); die;
 
         return $directories;
     }
@@ -87,11 +107,10 @@ class DirBackupCreator extends BackupCreatorBase
         $this->projectDirectory = $projectDirectory;
         return $this;
     }
-    
+
     public function setTargetDirectories($targetDirectories)
     {
         $this->targetDirectories = $targetDirectories;
         return $this;
     }
-
 }

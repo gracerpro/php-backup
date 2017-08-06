@@ -14,9 +14,7 @@ if ($isPharArchive) {
         $classNameWithSlashes = str_replace('\\', '/', $className);
         $filePath = __DIR__ . '/' . $classNameWithSlashes . '.php';
         echo $filePath, "\n";
-        var_dump(file_exists($filePath));
         echo __FILE__, "\n";
-        var_dump(file_exists(__FILE__));
         if (file_exists($filePath)) {
             include_once $filePath;
         }
