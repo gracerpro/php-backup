@@ -29,7 +29,11 @@ class DirBackupCreator extends BackupCreatorBase
 
         $consoleOut->printMessage("Create directory archive...");
 
-        $consoleOut->printMessage("Compressed dir: {$this->targetDirectories}");
+        $directories = $this->getRealDirectories();
+        $consoleOut->printMessage("Project dir: {$this->projectDirectory}");
+        foreach ($this->targetDirectories as $directory) {
+            $consoleOut->printMessage("  compress dir: {$directory}");
+        }
         $consoleOut->printMessage("Target file path: {$targetFilePath}");
 
         try {
@@ -43,10 +47,12 @@ class DirBackupCreator extends BackupCreatorBase
     private function getRealDirectories()
     {
         $directories = [];
+        $config = Config::getInstance();
 
         foreach ($this->targetDirectories as $dir) {
-            
+            $directories[] = $this->projectDirectory . '/' . $dir;
         }
+       // var_dump($directories); die;
 
         return $directories;
     }
@@ -65,8 +71,11 @@ class DirBackupCreator extends BackupCreatorBase
 
     private function validateForCreation()
     {
-        if (!is_dir($this->targetDirectories)) {
-            throw new BackupException("The target directory not exists.");
+        if (!$this->projectDirectory) {
+            throw new BackupException("The project directory must be sets.");
+        }
+        if (!is_dir($this->projectDirectory)) {
+            throw new BackupException("The project directory not exists.");
         }
         if (!$this->targetDirectoryName) {
             throw new BackupException("Empty target directory name.");

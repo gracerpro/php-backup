@@ -28,7 +28,7 @@ class MysqlBackup
         if ($isPharArchive) {
             $dir = dirname(\Phar::running(false));
         } else {
-            $dir = dirname(__FILE__) . '/../..';
+            $dir = realpath(dirname(__FILE__) . '/../..');
         }
 
         return $dir;
@@ -207,6 +207,7 @@ class MysqlBackup
         }
 
         $consoleOut = ConsoleOutput::getInstance();
+        $config = Config::getInstance();
         $printDefaultMessage = $this->inputParameters->isEmpty();
 
         try {
@@ -219,11 +220,10 @@ class MysqlBackup
                 $creator = new BackupCreator();
                 $this->removeOldBackups($creator);
             } elseif ($this->inputParameters->isRunBackupDirAction()) {
-                $directories = $this->inputParameters->getBackupTargetDirectories();
-                var_dump($this->inputParameters->getBackupTargetProjectDir());
-                var_dump($directories); die;
                 $creator = new DirBackupCreator();
-                $creator->setTargetDirectoryName($this->inputParameters->getBackupTargetDirName());
+                $creator->setProjectDirectory($config->getBackupTargetProjectDir());
+                $creator->setTargetDirectories($config->getBackupTargetDirectories());
+                $creator->setTargetDirectoryName($config->getBackupTargetDirName());
                 $creator->create();
             } else {                
                 $printDefaultMessage = true;

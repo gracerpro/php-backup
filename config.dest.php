@@ -9,6 +9,7 @@ return [
     'removeArchiveAfterSync' => false,
     'storageType' => '',
     'tempBackupDir' => '',
+    'backupTargetProjectDir' => '',
     'backupTargetDir' => [], // or string
     'backupTargetDirName' => '',
     // disk

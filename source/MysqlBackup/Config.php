@@ -24,6 +24,10 @@ class Config
         $this->removeArchiveAfterSync = false;
         $this->storageType = BackupStorageFactory::STORAGE_DISK;
 
+        $this->backupTargetDirName = '';
+        $this->backupTargetDirectories = [];
+        $this->backupTargetProjectDir = '';
+
         // disk
         $this->storageDiskDir = '';
 
@@ -60,6 +64,14 @@ class Config
         foreach ($config as $name => $value) {
             if (property_exists($this, $name)) {
                 $this->{$name} = $value;
+            }
+        }
+
+        if (isset($config['backupTargetDir'])) {
+            if (is_array($config['backupTargetDir'])) {
+                $this->backupTargetDirectories = $config['backupTargetDir'];
+            } else {
+                $this->backupTargetDirectories = [$config['backupTargetDir']];
             }
         }
     }
