@@ -100,7 +100,7 @@ class DirBackupCreator extends BackupCreatorBase implements CreatorInterface
             throw new BackupException("The project directory must be sets.");
         }
         if (!is_dir($this->projectDirectory)) {
-            throw new BackupException("The project directory not exists.");
+            throw new BackupException("The project directory not exists. \"{$this->projectDirectory}\"");
         }
         if (!$this->targetDirectoryName) {
             throw new BackupException("Empty target directory name.");
