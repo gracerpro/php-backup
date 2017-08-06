@@ -225,6 +225,9 @@ class MysqlBackup
                 $creator->setTargetDirectories($config->getBackupTargetDirectories());
                 $creator->setTargetDirectoryName($config->getBackupTargetDirName());
                 $creator->create();
+                
+                $this->sendBackupToStorage($creator);
+                $this->removeBackupFile($creator);
             } else {                
                 $printDefaultMessage = true;
             }
@@ -239,7 +242,7 @@ class MysqlBackup
         }
     }
 
-    private function removeBackupFile(BackupCreator $creator)
+    private function removeBackupFile(CreatorInterface $creator)
     {
         $consoleOut = ConsoleOutput::getInstance();
 
@@ -266,7 +269,7 @@ class MysqlBackup
         return $creator;
     }
     
-    private function removeOldBackups(BackupCreator $creator)
+    private function removeOldBackups(CreatorInterface $creator)
     {
         $config = Config::getInstance();
         $consoleOut = ConsoleOutput::getInstance();
@@ -278,7 +281,7 @@ class MysqlBackup
         $storage->removeOldBackups($creator);
     }
 
-    private function sendBackupToStorage(BackupCreator $creator)
+    private function sendBackupToStorage(CreatorInterface $creator)
     {
         $consoleOut = ConsoleOutput::getInstance();
         $config = Config::getInstance();

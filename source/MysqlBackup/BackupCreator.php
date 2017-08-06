@@ -1,7 +1,7 @@
 <?php
 namespace MysqlBackup;
 
-class BackupCreator extends BackupCreatorBase
+class BackupCreator extends BackupCreatorBase implements CreatorInterface
 {
 
     // TODO: move to config
@@ -24,7 +24,7 @@ class BackupCreator extends BackupCreatorBase
      * @return string
      * @throws BackupException
      */
-    public function getBackupFilePath()
+    public function getBackupFilePath(): string
     {
         $config = Config::getInstance();
         if ($this->frequencyCreation === self::FRECUENCY_DAY) {

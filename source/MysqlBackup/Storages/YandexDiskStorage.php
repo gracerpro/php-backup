@@ -2,24 +2,25 @@
 namespace MysqlBackup\Storages;
 
 use MysqlBackup\Config;
-use MysqlBackup\BackupCreator;
+use MysqlBackup\CreatorInterface;
 use Yandex\Disk\DiskClient;
+use MysqlBackup\BackupException;
 
 class YandexDiskStorage implements StorageInterface
 {
 
     /**
-     * @param BackupCreator $creator
+     * @param CreatorInterface $creator
      * @throws \Yandex\Disk\Exception\DiskRequestException
      * @return boolean
      */
-    public function save(BackupCreator $creator)
+    public function save(CreatorInterface $creator)
     {
         $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
 
         if (!$config->getStorageYandexDiskDir()) {
-            throw new \MysqlBackup\BackupException("Empty yandex disk target directory.");
+            throw new BackupException("Empty yandex disk target directory.");
         }
         $targetDir = $this->validateDir($config->getStorageYandexDiskDir());
         $disk = new DiskClient();
@@ -46,9 +47,9 @@ class YandexDiskStorage implements StorageInterface
         return true;
     }
 
-    public function removeOldBackups(BackupCreator $creator)
+    public function removeOldBackups(CreatorInterface $creator)
     {
-        throw new \MysqlBackup\BackupException(__METHOD__ . " TODO");
+        throw new BackupException(__METHOD__ . " TODO");
     }
 
     private function validateDir($dir)

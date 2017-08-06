@@ -15,8 +15,4 @@ abstract class BackupCreatorBase
         return 'gz';
     }
 
-    /**
-     * @return string
-     */
-    abstract public function getBackupZippedFilePath(): string;
 }

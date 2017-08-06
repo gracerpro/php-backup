@@ -1,7 +1,7 @@
 <?php
 namespace MysqlBackup;
 
-class DirBackupCreator extends BackupCreatorBase
+class DirBackupCreator extends BackupCreatorBase implements CreatorInterface
 {
 
     /** @var string */
@@ -75,6 +75,11 @@ class DirBackupCreator extends BackupCreatorBase
         }
 
         return $directories;
+    }
+
+    public function getBackupFilePath(): string
+    {
+        return '';
     }
 
     public function getBackupZippedFilePath(): string

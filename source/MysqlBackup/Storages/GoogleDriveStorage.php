@@ -1,19 +1,21 @@
 <?php
 namespace MysqlBackup\Storages;
 
+use MysqlBackup\CreatorInterface;
+
 class GoogleDriveStorage implements StorageInterface
 {
 
-    public function removeOldBackups(\MysqlBackup\BackupCreator $creator)
+    public function removeOldBackups(CreatorInterface $creator)
     {
         throw new \MysqlBackup\BackupException("TODO: removeOldBackups");
     }
 
     /**
-     * @param \MysqlBackup\BackupCreator $creator
+     * @param CreatorInterface $creator
      * @return boolean
      */
-    public function save(\MysqlBackup\BackupCreator $creator)
+    public function save(CreatorInterface $creator)
     {
         $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
         $config = \MysqlBackup\Config::getInstance();

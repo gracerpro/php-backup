@@ -1,13 +1,13 @@
 <?php
 namespace MysqlBackup\Storages;
 
-use MysqlBackup\BackupCreator;
+use MysqlBackup\CreatorInterface;
 
 interface StorageInterface
 {
 
-    public function save(BackupCreator $creator);
+    public function save(CreatorInterface $creator);
     
-    public function removeOldBackups(BackupCreator $creator);
+    public function removeOldBackups(CreatorInterface $creator);
 
 }
