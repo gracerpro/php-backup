@@ -9,8 +9,8 @@ return [
     'removeArchiveAfterSync' => false,
     'storageType' => '',
     'tempBackupDir' => '',
-    'backupTargerDir' => '',
-    'backupTargerDirName' => '',
+    'backupTargetDir' => [], // or string
+    'backupTargetDirName' => '',
     // disk
     'storageDiskDir' => '',
     // yandex disk

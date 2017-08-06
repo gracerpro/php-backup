@@ -121,6 +121,7 @@ class MysqlBackup
         $longOptions = [
             'backup::',
             'backupDir::',
+            'backupTargetProjectDir:',
             'backupTargetDir:',
             'backupTargetDirName:',
             'clean::',
@@ -147,11 +148,14 @@ class MysqlBackup
         if (isset($options['backupDir'])) {
             $this->inputParameters->setIsRunBackupDirAction(true);
         }
-        if (isset($options['backupTargerDirName'])) {
-            $this->inputParameters->setBackupTargerDirName($options['backupTargetDirName']);
+        if (isset($options['backupTargetDirName'])) {
+            $this->inputParameters->setBackupTargetDirName($options['backupTargetDirName']);
+        }
+        if (isset($options['backupTargetProjectDir'])) {
+            $this->inputParameters->setBackupTargetProjectDir($options['backupTargetProjectDir']);
         }
         if (isset($options['backupTargetDir'])) {
-            $this->inputParameters->setBackupTargerDir($options['backupTargetDir']);
+            $this->inputParameters->setBackupTargetDirectories($options['backupTargetDir']);
         }
         if (isset($options['clean'])) {
             $this->inputParameters->setRunClean(true);
@@ -215,9 +219,12 @@ class MysqlBackup
                 $creator = new BackupCreator();
                 $this->removeOldBackups($creator);
             } elseif ($this->inputParameters->isRunBackupDirAction()) {
-                $creator = new DirBackupCreator($this->inputParameters->getBackupTargerDir());
+                $directories = $this->inputParameters->getBackupTargetDirectories();
+                var_dump($this->inputParameters->getBackupTargetProjectDir());
+                var_dump($directories); die;
+                $creator = new DirBackupCreator();
+                $creator->setTargetDirectoryName($this->inputParameters->getBackupTargetDirName());
                 $creator->create();
-                
             } else {                
                 $printDefaultMessage = true;
             }

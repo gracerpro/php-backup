@@ -16,7 +16,9 @@ class Help
         $console->printMessage("-h, --help           Show help.");
         $console->printMessage("-b, --backup         Run backup action.");
         $console->printMessage("--backupDir          Run backup of the directory action.");
-        $console->printMessage("--backupTargerDirName Target directory name for backup.");
+        $console->printMessage("--backupTargetProjectDir Backup project directory.");
+        $console->printMessage("--backupTargetDir    Backup directories. If --backupTargetProjectDir sets then contains from relative names.");
+        $console->printMessage("--backupTargetDirName Target directory name for backup.");
         $console->printMessage("--clean              Run clean action.");
         $console->printMessage("-f, --configFile     Configuration file, default 'config-local.php'.");
         $console->printMessage("-d, --debug          Debug mode.");

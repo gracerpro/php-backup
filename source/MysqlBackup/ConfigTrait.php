@@ -58,6 +58,15 @@ trait ConfigTrait
     /** @var bool */
     private $debug;
 
+    /** @var string */
+    private $backupTargetProjectDir;
+
+    /** @var string */
+    private $backupTargetDirectories;
+
+    /** @var string */
+    private $backupTargetDirName;
+
     /** @var int Time in days, if today - file date >= this field then backup will be removed. */
     private $cleanActiveDay;
 
@@ -230,6 +239,44 @@ trait ConfigTrait
     public function setStorageGoogleDriveKeyFile($file)
     {
         $this->storageGoogleDriveKeyFile = $file;
+        return $this;
+    }
+
+    public function getBackupTargetDirName()
+    {
+        return $this->backupTargetDirName;
+    }
+
+    public function setBackupTargetDirName($value)
+    {
+        $this->backupTargetDirName = $value;
+        return $this;
+    }
+
+    public function getBackupTargetDirectories()
+    {
+        return $this->backupTargetDirectories;
+    }
+
+    public function setBackupTargetDirectories($value)
+    {
+        if (is_array($value)) {
+            $this->backupTargetDirectories = $value;
+        } else {
+            $this->backupTargetDirectories = [$value];
+        }
+
+        return $this;
+    }
+
+    public function getBackupTargetProjectDir()
+    {
+        return $this->backupTargetProjectDir;
+    }
+
+    public function setBackupTargetProjectDir($backupTargetProjectDir)
+    {
+        $this->backupTargetProjectDir = $backupTargetProjectDir;
         return $this;
     }
 }
