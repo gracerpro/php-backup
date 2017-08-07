@@ -251,12 +251,12 @@ class MysqlBackup
         if (is_file($creator->getBackupFilePath())) {
             $consoleOut->printMessage("Remove backup file...");
             $result = unlink($creator->getBackupFilePath());
-            $consoleOut->printMessage("status: " . ($result ? 'succes' : 'failed'));
+            $consoleOut->printMessage("status: " . ($result ? 'success' : 'failed'));
         }
         if (is_file($creator->getBackupZippedFilePath())) {
             $consoleOut->printMessage("Remove backup archive file...");
             $result = unlink($creator->getBackupZippedFilePath());
-            $consoleOut->printMessage("status: " . ($result ? 'succes' : 'failed'));
+            $consoleOut->printMessage("status: " . ($result ? 'success' : 'failed'));
         }
         $consoleOut->printMessage("Ok.");
     }
