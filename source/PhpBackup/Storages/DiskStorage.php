@@ -1,16 +1,16 @@
 <?php
-namespace MysqlBackup\Storages;
+namespace PhpBackup\Storages;
 
-use MysqlBackup\Config;
-use MysqlBackup\CreatorInterface;
-use MysqlBackup\Storages\StorageInterface;
+use PhpBackup\Config;
+use PhpBackup\CreatorInterface;
+use PhpBackup\Storages\StorageInterface;
 
 class DiskStorage implements StorageInterface
 {
 
     public function save(CreatorInterface $creator)
     {
-        $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
+        $consoleOut = \PhpBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
 
         $dir = $config->getStorageDiskDir();
@@ -36,24 +36,24 @@ class DiskStorage implements StorageInterface
     private function checkTargetDir($dir)
     {
         if (!$dir) {
-            throw new \MysqlBackup\BackupException("The storage disk directory musb sets.");
+            throw new \PhpBackup\BackupException("The storage disk directory musb sets.");
         }
         if (!is_dir($dir)) {
-            throw new \MysqlBackup\BackupException("Unknown storage disk directory.");
+            throw new \PhpBackup\BackupException("Unknown storage disk directory.");
         }
     }
 
     public function removeOldBackups(CreatorInterface $creator)
     {
-        $fileHelper = new \MysqlBackup\FileHelper();
-        $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
+        $fileHelper = new \PhpBackup\FileHelper();
+        $consoleOut = \PhpBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
         $dir = $fileHelper->trimDirName($config->getStorageDiskDir());
         $this->checkTargetDir($dir);
 
         $handle = opendir($dir);
         if ($handle === false) {
-            throw new \MysqlBackup\BackupException("Could not open directory.");
+            throw new \PhpBackup\BackupException("Could not open directory.");
         }
 
         // ignore subdirectories
@@ -67,7 +67,7 @@ class DiskStorage implements StorageInterface
             if ($this->isArchiveFile($filePath, $creator) && $this->isReadyForClean($filePath)) {
                 $consoleOut->printMessage("Remove file... {$file}");
                 //if (!unlink($file)) {
-                //    throw new \MysqlBackup\BackupException("Could not remove file");
+                //    throw new \PhpBackup\BackupException("Could not remove file");
                 //}
             }
         }
@@ -80,7 +80,7 @@ class DiskStorage implements StorageInterface
         // by mask
         //...
         // by extension
-        $fileExtension = \MysqlBackup\FileHelper::getFileExtension($filePath);
+        $fileExtension = \PhpBackup\FileHelper::getFileExtension($filePath);
         if ($fileExtension === $creator->getBackupArchiveExtension()) {
             return true;
         }

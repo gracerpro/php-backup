@@ -1,7 +1,7 @@
 <?php
-namespace MysqlBackup\Storages;
+namespace PhpBackup\Storages;
 
-use MysqlBackup\CreatorInterface;
+use PhpBackup\CreatorInterface;
 
 interface StorageInterface
 {

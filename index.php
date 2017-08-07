@@ -30,10 +30,10 @@ if ($isPharArchive) {
 }
 
 $config = [];
-$configFile = \MysqlBackup\MysqlBackup::getRuningDir() . '/config-local.php';
+$configFile = \PhpBackup\PhpBackup::getRuningDir() . '/config-local.php';
 if (is_file($configFile)) {
     $config = require $configFile;
 }
 
-$mysqlBackup = new \MysqlBackup\MysqlBackup();
-$mysqlBackup->run($config);
+$phpBackup = new \PhpBackup\PhpBackup();
+$phpBackup->run($config);

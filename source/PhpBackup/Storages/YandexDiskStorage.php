@@ -1,10 +1,10 @@
 <?php
-namespace MysqlBackup\Storages;
+namespace PhpBackup\Storages;
 
-use MysqlBackup\Config;
-use MysqlBackup\CreatorInterface;
+use PhpBackup\Config;
+use PhpBackup\CreatorInterface;
 use Yandex\Disk\DiskClient;
-use MysqlBackup\BackupException;
+use PhpBackup\BackupException;
 
 class YandexDiskStorage implements StorageInterface
 {
@@ -16,7 +16,7 @@ class YandexDiskStorage implements StorageInterface
      */
     public function save(CreatorInterface $creator)
     {
-        $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
+        $consoleOut = \PhpBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
 
         if (!$config->getStorageYandexDiskDir()) {

@@ -1,10 +1,10 @@
 <?php
-namespace MysqlBackup;
+namespace PhpBackup;
 
-use MysqlBackup\Storages\DiskStorage;
-use MysqlBackup\Storages\YandexDiskStorage;
-use MysqlBackup\Storages\StorageInterface;
-use MysqlBackup\Storages\GoogleDriveStorage;
+use PhpBackup\Storages\DiskStorage;
+use PhpBackup\Storages\YandexDiskStorage;
+use PhpBackup\Storages\StorageInterface;
+use PhpBackup\Storages\GoogleDriveStorage;
 
 class BackupStorageFactory
 {
@@ -39,7 +39,7 @@ class BackupStorageFactory
             case self::STORAGE_GOOGLE_DRIVE:
                 return new GoogleDriveStorage();
             default:
-                throw new \MysqlBackup\BackupException("Bad storage type");
+                throw new \PhpBackup\BackupException("Bad storage type");
         }
     }
     

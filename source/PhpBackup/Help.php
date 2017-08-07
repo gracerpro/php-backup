@@ -1,7 +1,7 @@
 <?php
-namespace MysqlBackup;
+namespace PhpBackup;
 
-use MysqlBackup\BackupStorageFactory;
+use PhpBackup\BackupStorageFactory;
 
 class Help
 {

@@ -1,5 +1,5 @@
 <?php
-namespace MysqlBackup;
+namespace PhpBackup;
 
 class DirBackupCreator extends BackupCreatorBase implements CreatorInterface
 {

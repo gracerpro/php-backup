@@ -1,9 +1,9 @@
 <?php
-namespace MysqlBackup;
+namespace PhpBackup;
 
-use MysqlBackup\BackupStorageFactory;
+use PhpBackup\BackupStorageFactory;
 
-class MysqlBackup
+class PhpBackup
 {
 
     /** @var InputParameters */
@@ -37,7 +37,7 @@ class MysqlBackup
     public function run($config = [])
     {
         $consoleOut = ConsoleOutput::getInstance();
-        $consoleOut->printMessage('MySQL backup version "' . MysqlBackup::VERSION . '"');
+        $consoleOut->printMessage('MySQL backup version "' . PhpBackup::VERSION . '"');
 
         try {
             $this->readConfig($config);
@@ -235,7 +235,7 @@ class MysqlBackup
             if ($printDefaultMessage) {
                 $consoleOut->printMessage("Use --help parameter for view help.");
             }
-        } catch (\MysqlBackup\BackupException $ex) {
+        } catch (\PhpBackup\BackupException $ex) {
             $consoleOut->printMessage("Global error: " . $ex->getMessage());
         } catch (\Exception $ex) {
             $consoleOut->printMessage("Exception: " . $ex->getMessage());
@@ -291,7 +291,7 @@ class MysqlBackup
         $consoleOut->printMessage("Use storage type: " . $storageType);
         $storage = $storageFactory->create($storageType);
         if (!$storage->save($creator)) {
-            throw new \MysqlBackup\BackupException("Could not save to storage");
+            throw new \PhpBackup\BackupException("Could not save to storage");
         }
     }
 }

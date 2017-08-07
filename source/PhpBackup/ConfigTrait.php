@@ -1,5 +1,5 @@
 <?php
-namespace MysqlBackup;
+namespace PhpBackup;
 
 trait ConfigTrait
 {
@@ -229,7 +229,7 @@ trait ConfigTrait
             return $this->storageGoogleDriveKeyFile;
         }
         $name = basename($this->storageGoogleDriveKeyFile);
-        $filePath = \MysqlBackup\MysqlBackup::getRuningDir() . '/' . $name;
+        $filePath = \PhpBackup\PhpBackup::getRuningDir() . '/' . $name;
         if (is_file($filePath)) {
             return $filePath;
         }

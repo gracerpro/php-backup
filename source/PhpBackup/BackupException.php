@@ -1,6 +1,6 @@
 <?php
 
-namespace MysqlBackup;
+namespace PhpBackup;
 
 class BackupException extends \Exception
 {

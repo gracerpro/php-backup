@@ -1,14 +1,14 @@
 <?php
-namespace MysqlBackup\Storages;
+namespace PhpBackup\Storages;
 
-use MysqlBackup\CreatorInterface;
+use PhpBackup\CreatorInterface;
 
 class GoogleDriveStorage implements StorageInterface
 {
 
     public function removeOldBackups(CreatorInterface $creator)
     {
-        throw new \MysqlBackup\BackupException("TODO: removeOldBackups");
+        throw new \PhpBackup\BackupException("TODO: removeOldBackups");
     }
 
     /**
@@ -17,17 +17,17 @@ class GoogleDriveStorage implements StorageInterface
      */
     public function save(CreatorInterface $creator)
     {
-        $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
-        $config = \MysqlBackup\Config::getInstance();
+        $consoleOut = \PhpBackup\ConsoleOutput::getInstance();
+        $config = \PhpBackup\Config::getInstance();
 
         if (!$config->getStorageGoogleDriveFolderId()) {
-            throw new \MysqlBackup\BackupException("Empty folder ID.");
+            throw new \PhpBackup\BackupException("Empty folder ID.");
         }
 
         $oauthConfigPath = $config->getStorageGoogleDriveKeyFile();
         if (!is_file($oauthConfigPath)) {
             $message = 'Google drive key file not found, path: "' . $oauthConfigPath. '"';
-            throw new \MysqlBackup\BackupException($message);
+            throw new \PhpBackup\BackupException($message);
         }
 
         $client = new \Google_Client();
