@@ -2,13 +2,13 @@
 namespace MysqlBackup\Storages;
 
 use MysqlBackup\Config;
-use MysqlBackup\BackupCreator;
+use MysqlBackup\CreatorInterface;
 use MysqlBackup\Storages\StorageInterface;
 
 class DiskStorage implements StorageInterface
 {
 
-    public function save(BackupCreator $creator)
+    public function save(CreatorInterface $creator)
     {
         $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
         $config = Config::getInstance();
@@ -43,7 +43,7 @@ class DiskStorage implements StorageInterface
         }
     }
 
-    public function removeOldBackups(BackupCreator $creator)
+    public function removeOldBackups(CreatorInterface $creator)
     {
         $fileHelper = new \MysqlBackup\FileHelper();
         $consoleOut = \MysqlBackup\ConsoleOutput::getInstance();
@@ -75,7 +75,7 @@ class DiskStorage implements StorageInterface
         closedir($handle);
     }
 
-    private function isArchiveFile($filePath, BackupCreator $creator)
+    private function isArchiveFile($filePath, CreatorInterface $creator): bool
     {
         // by mask
         //...
@@ -88,7 +88,7 @@ class DiskStorage implements StorageInterface
         return false;
     }
 
-    private function isReadyForClean($filePath)
+    private function isReadyForClean($filePath): bool
     {
         $config = Config::getInstance();
         $modifyTimestamp = filemtime($filePath);

@@ -217,7 +217,7 @@ class MysqlBackup
                 $this->sendBackupToStorage($creator);
                 $this->removeBackupFile($creator);
             } elseif ($this->inputParameters->getRunClean()) {
-                $creator = new BackupCreator();
+                $creator = new MysqlBackupCreator();
                 $this->removeOldBackups($creator);
             } elseif ($this->inputParameters->isRunBackupDirAction()) {
                 $creator = new DirBackupCreator();
@@ -263,7 +263,7 @@ class MysqlBackup
 
     private function createBackupFile()
     {
-        $creator = new BackupCreator();
+        $creator = new MysqlBackupCreator();
         $creator->create();
 
         return $creator;

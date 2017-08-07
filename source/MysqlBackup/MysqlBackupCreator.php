@@ -1,7 +1,7 @@
 <?php
 namespace MysqlBackup;
 
-class BackupCreator extends BackupCreatorBase implements CreatorInterface
+class MysqlBackupCreator extends BackupCreatorBase implements CreatorInterface
 {
 
     public function getBackupZippedFilePath(): string
