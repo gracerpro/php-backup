@@ -4,15 +4,9 @@ namespace MysqlBackup;
 class BackupCreator extends BackupCreatorBase implements CreatorInterface
 {
 
-    // TODO: move to config
-    const FRECUENCY_DAY = 'day';
-
-    /** @var string */
-    private $frequencyCreation;
-
     public function __construct()
     {
-        $this->frequencyCreation = self::FRECUENCY_DAY;
+        parent::__construct();
     }
 
     public function getBackupZippedFilePath(): string

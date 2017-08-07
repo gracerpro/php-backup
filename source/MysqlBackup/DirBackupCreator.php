@@ -15,6 +15,8 @@ class DirBackupCreator extends BackupCreatorBase implements CreatorInterface
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->targetDirectories = [];
         $this->targetDirectoryName = "";
         $this->projectDirectory = "";
@@ -68,7 +70,6 @@ class DirBackupCreator extends BackupCreatorBase implements CreatorInterface
     private function getRealDirectories(): array
     {
         $directories = [];
-        $config = Config::getInstance();
 
         foreach ($this->targetDirectories as $dir) {
             $directories[] = $this->projectDirectory . '/' . $dir;
@@ -85,7 +86,13 @@ class DirBackupCreator extends BackupCreatorBase implements CreatorInterface
     public function getBackupZippedFilePath(): string
     {
         $config = Config::getInstance();
-        return $config->getTempBackupDir() . '/' . $this->targetDirectoryName . '.' . $this->getBackupArchiveExtension();
+
+        $filePath = '';
+        if ($this->frequencyCreation === self::FRECUENCY_DAY) {
+            $filePath = $config->getTempBackupDir() . '/' . date('Y-m-d'). '_' . $this->targetDirectoryName . '.' . $this->getBackupArchiveExtension();
+        }
+        
+        return $filePath;
     }
 
     public function setTargetDirectoryName($value)
