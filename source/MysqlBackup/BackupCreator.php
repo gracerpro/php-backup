@@ -4,11 +4,6 @@ namespace MysqlBackup;
 class BackupCreator extends BackupCreatorBase implements CreatorInterface
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getBackupZippedFilePath(): string
     {
         return $this->getBackupFilePath() . '.' . $this->getBackupArchiveExtension();
@@ -73,18 +68,12 @@ class BackupCreator extends BackupCreatorBase implements CreatorInterface
     private function compress()
     {
         $consoleOut = ConsoleOutput::getInstance();
-        $targetFilePath = $this->getBackupFilePath();
-        $output = '';
-        $returnCode = 0;
 
         $consoleOut->printMessage("Gzip...");
-        $command = "gzip -f -S \".{$this->getBackupArchiveExtension()}\" \"{$targetFilePath}\"";
-        exec($command, $output, $returnCode);
-        $consoleOut->printMessage("exec() return code: {$returnCode}");
+        $compress = new Compress();
+        $compress->zipFile($this->getBackupFilePath(), $this->getBackupArchiveExtension());
+ 
         $archiveFilePath = $this->getBackupZippedFilePath();
-        if (!file_exists($archiveFilePath)) {
-            throw new BackupException("Could not create a file.");
-        }
         $archiveFileSizeInMb = (int) round(filesize($archiveFilePath) / 1024 / 1024, 3);
         $consoleOut->printMessage("Writed {$archiveFileSizeInMb} Mb.");
     }
