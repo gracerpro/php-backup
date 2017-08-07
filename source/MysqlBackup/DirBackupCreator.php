@@ -39,24 +39,8 @@ class DirBackupCreator extends BackupCreatorBase implements CreatorInterface
         $consoleOut->printMessage("Target file path: {$targetFilePath}");
 
         try {
-            $zip = new \ZipArchive();
-            if (!$zip->open($targetFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
-                throw new BackupException("Could not open zip archive {$targetFilePath}");
-            }
-
-            $rootIndex = strlen($this->projectDirectory) + 1;
-            foreach ($directories as $directory) {
-                $directoryIterator = new \RecursiveDirectoryIterator($directory);
-                $files = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::LEAVES_ONLY);
-                foreach ($files as $name => $file) {
-                    if (!$file->isDir()) {
-                        $filePath = $file->getRealPath();
-                        $relativePath = substr($filePath, $rootIndex);
-                        $zip->addFile($filePath, $relativePath);
-                    }
-                }
-            }
-            $zip->close();
+            $compress = new Compress();
+            $compress->zipDirectories($this->projectDirectory, $directories, $targetFilePath);
         } catch (BackupException $ex) {
             throw $ex;
         } catch (\Exception $ex) {
