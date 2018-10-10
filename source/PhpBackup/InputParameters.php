@@ -19,7 +19,7 @@ class InputParameters
     private $runClean;
 
     /** @var bool */
-    private $runBackupDirAction;
+    private $runBackupFilesAction;
     // TODO: move to trait
     /** @var string */
     private $configFileName;
@@ -79,14 +79,14 @@ class InputParameters
         return $this;
     }
 
-    public function isRunBackupDirAction()
+    public function isRunBackupFilesAction()
     {
-        return $this->runBackupDirAction;
+        return $this->runBackupFilesAction;
     }
 
-    public function setIsRunBackupDirAction($value = true)
+    public function setIsRunBackupFilesAction($value = true)
     {
-        $this->runBackupDirAction = $value;
+        $this->runBackupFilesAction = $value;
         return $this;
     }
 }

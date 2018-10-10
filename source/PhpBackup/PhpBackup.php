@@ -72,7 +72,7 @@ class PhpBackup
     {
         $config = Config::getInstance();
         $config->read($configArr);
-
+        
         $this->sourseConfig = $configArr;
     }
 
@@ -146,7 +146,7 @@ class PhpBackup
             $this->inputParameters->setRunBuckup(true);
         }
         if (isset($options['backupDir'])) {
-            $this->inputParameters->setIsRunBackupDirAction(true);
+            $this->inputParameters->setIsRunBackupFilesAction(true);
         }
         if (isset($options['backupTargetDirName'])) {
             $this->inputParameters->setBackupTargetDirName($options['backupTargetDirName']);
@@ -219,7 +219,7 @@ class PhpBackup
             } elseif ($this->inputParameters->getRunClean()) {
                 $creator = new MysqlBackupCreator();
                 $this->removeOldBackups($creator);
-            } elseif ($this->inputParameters->isRunBackupDirAction()) {
+            } elseif ($config->getRunBackupFilesAction()) {
                 $creator = new DirBackupCreator();
                 $creator->setProjectDirectory($config->getBackupTargetProjectDir());
                 $creator->setTargetDirectories($config->getBackupTargetDirectories());

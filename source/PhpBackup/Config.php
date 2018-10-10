@@ -28,6 +28,9 @@ class Config
         $this->backupTargetDirectories = [];
         $this->backupTargetProjectDir = '';
 
+        // actions
+        $this->runBackupFilesAction = false;
+
         // disk
         $this->storageDiskDir = '';
 

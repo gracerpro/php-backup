@@ -70,6 +70,9 @@ trait ConfigTrait
     /** @var int Time in days, if today - file date >= this field then backup will be removed. */
     private $cleanActiveDay;
 
+    /** @var bool */
+    private $runBackupFilesAction = false;
+
     public function getMysqlDumpOptions()
     {
         return $this->mysqlDumpOptions;
@@ -277,6 +280,17 @@ trait ConfigTrait
     public function setBackupTargetProjectDir($backupTargetProjectDir)
     {
         $this->backupTargetProjectDir = $backupTargetProjectDir;
+        return $this;
+    }
+    
+    function getRunBackupFilesAction(): bool
+    {
+        return $this->runBackupFilesAction;
+    }
+
+    function setRunBackupFilesAction($value = true)
+    {
+        $this->runBackupFilesAction = (bool)$value;
         return $this;
     }
 }
