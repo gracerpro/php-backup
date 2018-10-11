@@ -10,9 +10,9 @@ class PhpBackup
     private $inputParameters;
 
     /** @var array */
-    private $sourseConfig;
+    private $sourseConfig = [];
 
-    const VERSION = "1.0";
+    const VERSION = "1.2";
 
     public function __construct()
     {
@@ -37,10 +37,12 @@ class PhpBackup
     public function run($config = [])
     {
         $consoleOut = ConsoleOutput::getInstance();
-        $consoleOut->printMessage('MySQL backup version "' . PhpBackup::VERSION . '"');
+        $consoleOut->printMessage('PHP backup version "' . PhpBackup::VERSION . '"');
 
         try {
-            $this->readConfig($config);
+            if ($config) {
+                $this->readConfig($config);
+            }
             $this->readInputParameters();
             if ($this->inputParameters->getConfigFileName()) {
                 $this->reopenConfig($this->inputParameters->getConfigFileName());
@@ -56,16 +58,16 @@ class PhpBackup
 
     private function reopenConfig($fileName)
     {
-        if (is_file($fileName)) {
-            $configArr = require $fileName;
-            if (!is_array($configArr)) {
-                throw new BackupException("Config is not an array.");
-            }
-            $newConfig = array_merge($this->sourseConfig, $configArr);
-
-            return $this->readConfig($newConfig);
+        if (!is_file($fileName)) {
+            throw new BackupException('Could not open the configuration file "' . $fileName . '"');
         }
-        throw new BackupException('Could not open the configuration file "' . $fileName . '"');
+        $configArr = require $fileName;
+        if (!is_array($configArr)) {
+            throw new BackupException("Config is not an array.");
+        }
+        $newConfig = array_merge($this->sourseConfig, $configArr);
+
+        return $this->readConfig($newConfig);
     }
 
     private function readConfig($configArr)
